@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/tabs/tabs.dart';
 
@@ -12,13 +13,13 @@ var onGenerateRoute = (RouteSettings settings) {
   final Function pageContentBuilder = routers[name];
   if (pageContentBuilder != null) {
     if (settings.arguments != null) {
-      final Route route = MaterialPageRoute(
+      final Route route = CupertinoPageRoute(
           builder: (context) =>
               pageContentBuilder(context, arguments: settings.arguments));
       return route;
     } else {
       final Route route =
-          MaterialPageRoute(builder: (context) => pageContentBuilder(context));
+      CupertinoPageRoute(builder: (context) => pageContentBuilder(context));
       return route;
     }
   }
