@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_jdshop/util/screenadapter.dart';
 
 class ColumnTitle extends StatefulWidget {
   String _title;
@@ -19,26 +19,24 @@ class _ColumnTitleState extends State<ColumnTitle> {
 
   @override
   Widget build(BuildContext context) {
-    //初始化flutter_screenutil
-    ScreenUtil(width: 750, height: 1334)..init(context);
+    ScreenAdapter.init(context);
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(left: ScreenUtil.getInstance().setWidth(20)),
+      margin: EdgeInsets.only(left: ScreenAdapter.setWidth(20)),
       padding: EdgeInsets.only(
-          left: ScreenUtil.getInstance().setWidth(20),
-          top: ScreenUtil.getInstance().setHeight(10),
-          bottom: ScreenUtil.getInstance().setHeight(10)),
+          left: ScreenAdapter.setWidth(20),
+          top: ScreenAdapter.setHeight(10),
+          bottom: ScreenAdapter.setHeight(10)),
       decoration: BoxDecoration(
           border: Border(
               left: BorderSide(
         color: Colors.red,
-        width: ScreenUtil.getInstance().setWidth(10),
+        width: ScreenAdapter.setWidth(10),
       ))),
       child: Text(
         this._title,
-        style: TextStyle(
-            fontSize: ScreenUtil.getInstance().setSp(36),
-            color: Colors.black54),
+        style:
+            TextStyle(fontSize: ScreenAdapter.setSp(36), color: Colors.black54),
       ),
     );
   }
