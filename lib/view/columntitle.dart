@@ -24,7 +24,10 @@ class _ColumnTitleState extends State<ColumnTitle> {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: ScreenUtil.getInstance().setWidth(20)),
-      padding: EdgeInsets.only(left: ScreenUtil.getInstance().setWidth(20)),
+      padding: EdgeInsets.only(
+          left: ScreenUtil.getInstance().setWidth(20),
+          top: ScreenUtil.getInstance().setHeight(10),
+          bottom: ScreenUtil.getInstance().setHeight(10)),
       decoration: BoxDecoration(
           border: Border(
               left: BorderSide(
