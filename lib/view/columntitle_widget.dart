@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 
-class ColumnTitle extends StatefulWidget {
+class ColumnTitleWidget extends StatefulWidget {
   String _title;
 
-  ColumnTitle(this._title);
+  ColumnTitleWidget(this._title);
 
   @override
   State<StatefulWidget> createState() {
-    return _ColumnTitleState(this._title);
+    return _ColumnTitleWidgetState(this._title);
   }
 }
 
-class _ColumnTitleState extends State<ColumnTitle> {
+class _ColumnTitleWidgetState extends State<ColumnTitleWidget> {
   String _title;
 
-  _ColumnTitleState(this._title);
+  _ColumnTitleWidgetState(this._title);
 
   @override
   Widget build(BuildContext context) {

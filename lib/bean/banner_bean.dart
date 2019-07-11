@@ -1,32 +1,50 @@
 class BannerBean {
-  String _imgUrl;
-  int _point;
-  String _backup;
+  List<BannerData> result;
 
-  @override
-  String toString() {
-    return 'BannerBean{_imgUrl: $_imgUrl, _point: $_point, _backup: $_backup}';
+  BannerBean({this.result});
+
+  BannerBean.fromJson(Map<String, dynamic> json) {
+    if (json['result'] != null) {
+      result = new List<BannerData>();
+      json['result'].forEach((v) {
+        result.add(new BannerData.fromJson(v));
+      });
+    }
   }
 
-  BannerBean.name();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.result != null) {
+      data['result'] = this.result.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
 
-  BannerBean(this._imgUrl, this._point, this._backup);
+class BannerData {
+  String sId;
+  String title;
+  String status;
+  String pic;
+  String url;
 
-  String get imgUrl => _imgUrl;
+  BannerData({this.sId, this.title, this.status, this.pic, this.url});
 
-  set imgUrl(String value) {
-    _imgUrl = value;
+  BannerData.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    status = json['status'];
+    pic = json['pic'];
+    url = json['url'];
   }
 
-  int get point => _point;
-
-  String get backup => _backup;
-
-  set backup(String value) {
-    _backup = value;
-  }
-
-  set point(int value) {
-    _point = value;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['title'] = this.title;
+    data['status'] = this.status;
+    data['pic'] = this.pic;
+    data['url'] = this.url;
+    return data;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jdshop/tabs/tabs.dart';
+import 'package:flutter_jdshop/pages/tabs/tabs.dart';
 
 //配置路由
 final routers = {

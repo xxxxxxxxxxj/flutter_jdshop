@@ -26,6 +26,9 @@ dependencies:
   flutter_swiper: ^1.1.6
   flutter_screenutil: ^0.5.3
   fluttertoast: ^3.1.0
+  dio: ^2.1.13
+  cached_network_image: ^1.0.0
+  flustars: ^0.2.6+1
 
 dev_dependencies:
   flutter_test:

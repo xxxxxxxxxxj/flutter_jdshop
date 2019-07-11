@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jdshop/tabs/cartpage.dart';
-import 'package:flutter_jdshop/tabs/categorypage.dart';
-import 'package:flutter_jdshop/tabs/homepage.dart';
-import 'package:flutter_jdshop/tabs/userpage.dart';
+import 'package:flutter_jdshop/pages/tabs/cartpage.dart';
+import 'package:flutter_jdshop/pages/tabs/categorypage.dart';
+import 'package:flutter_jdshop/pages/tabs/homepage.dart';
+import 'package:flutter_jdshop/pages/tabs/userpage.dart';
 
 class Tabs extends StatefulWidget {
   @override
