@@ -2,7 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/banner_bean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
-import 'package:flutter_jdshop/util/imageutil.dart';
+import 'package:flutter_jdshop/view/netimage.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

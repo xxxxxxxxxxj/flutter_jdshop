@@ -357,7 +357,13 @@ class DioUtil {
         "  baseUrl: " +
         request.baseUrl +
         "  path: " +
-        request.path;
+        request.path +
+        "  queryParameters: " +
+        request.queryParameters.toString() +
+        "  headers: " +
+        request.headers.toString() +
+        "  data: " +
+        request.data.toString();
   }
 
   /// print Data Str.

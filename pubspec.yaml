@@ -29,6 +29,7 @@ dependencies:
   dio: ^2.1.13
   cached_network_image: ^1.0.0
   flustars: ^0.2.6+1
+  device_info: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:

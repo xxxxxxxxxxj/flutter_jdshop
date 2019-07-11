@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/banner_bean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
-import 'package:flutter_jdshop/util/imageutil.dart';
+import 'package:flutter_jdshop/view/netimage.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/columntitle_widget.dart';
