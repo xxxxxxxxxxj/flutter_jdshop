@@ -193,6 +193,8 @@ class _HomePageState extends State<HomePage> {
                       //能够点击
                       onTap: () {},
                       child: Container(
+                        width: ScreenAdapter.setWidth(140),
+                        height: double.infinity,
                         margin: index == _likeList.length - 1
                             ? null
                             : EdgeInsets.only(
