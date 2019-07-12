@@ -47,7 +47,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 )),
           )
         : Text(
-            "",
+            "加载中...",
           );
   }
 }

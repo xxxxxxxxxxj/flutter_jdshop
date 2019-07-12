@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                     )),
           )
-        : Text("");
+        : Text("加载中...");
   }
 
   _getLikeWidget() {
@@ -227,6 +227,6 @@ class _HomePageState extends State<HomePage> {
                       ));
                 }),
           )
-        : Text("");
+        : Text("加载中...");
   }
 }
