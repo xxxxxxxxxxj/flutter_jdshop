@@ -1,6 +1,6 @@
 import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jdshop/bean/banner_bean.dart';
+import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
@@ -147,7 +147,9 @@ class _HomePageState extends State<HomePage> {
                                   _hotList[index].title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(color: Colors.black54),
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: ScreenAdapter.setSp(26)),
                                 ),
                               ),
                               Stack(
@@ -156,7 +158,9 @@ class _HomePageState extends State<HomePage> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       "¥${_hotList[index].price}",
-                                      style: TextStyle(color: Colors.red),
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: ScreenAdapter.setSp(26)),
                                     ),
                                   ),
                                   Align(
@@ -167,7 +171,8 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.black54,
                                           //中间加横线
                                           decoration:
-                                              TextDecoration.lineThrough),
+                                              TextDecoration.lineThrough,
+                                          fontSize: ScreenAdapter.setSp(26)),
                                     ),
                                   )
                                 ],
@@ -185,7 +190,7 @@ class _HomePageState extends State<HomePage> {
             margin: EdgeInsets.only(
                 left: ScreenAdapter.setWidth(20),
                 right: ScreenAdapter.setWidth(20)),
-            height: ScreenAdapter.setHeight(201), //高度自适应
+            height: ScreenAdapter.setHeight(200), //高度自适应
             width: double.maxFinite, //宽度充满
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -214,6 +219,8 @@ class _HomePageState extends State<HomePage> {
                               _likeList[index].title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              style:
+                                  TextStyle(fontSize: ScreenAdapter.setSp(26)),
                             )
                           ],
                         ),

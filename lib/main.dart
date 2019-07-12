@@ -7,9 +7,9 @@ import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/index.dart';
 import 'package:flutter_jdshop/routers/router.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_jdshop/util/log_util.dart';
 import 'data/index.dart';
 import 'package:package_info/package_info.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluintl/fluintl.dart';
 

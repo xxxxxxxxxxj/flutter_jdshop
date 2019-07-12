@@ -1,4 +1,4 @@
-import 'package:flutter_jdshop/bean/banner_bean.dart';
+import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/data/index.dart';
 
