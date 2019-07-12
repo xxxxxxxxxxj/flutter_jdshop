@@ -29,6 +29,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() async {
+    //初始化日志模块
+    LogUtil.init(isDebug: AppConfig.isLogDeBug, tag: AppConfig.logTag);
     //初始化网络请求模块
     BaseOptions options = DioUtil.getDefOptions();
     options.baseUrl = ApiConfig.BASE_URL;
@@ -42,10 +44,9 @@ class _MyAppState extends State<MyApp> {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       _headers["device_info"] = iosInfo;
     }
+    LogUtil.e("_headers = " + _headers.toString());
     options.headers = _headers;
     DioUtil().setConfig(config);
-    //初始化日志模块
-    LogUtil.init(isDebug: AppConfig.isLogDeBug, tag: AppConfig.logTag);
   }
 
   @override

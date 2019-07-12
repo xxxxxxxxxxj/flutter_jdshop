@@ -16,7 +16,6 @@ class NetImage extends StatelessWidget {
         _imgUrl = ApiConfig.BASE_URL + _imgUrl;
       }
       _imgUrl = _imgUrl.replaceAll('\\', '/');
-      LogUtil.e("_imgUrl = " + _imgUrl);
       return CachedNetworkImage(
         fit: BoxFit.fill,
         imageUrl: _imgUrl,
