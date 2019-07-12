@@ -1,11 +1,12 @@
 class Ids {
   static const String titleHome = 'title_home';
-  static const String titleRepos = 'title_repos';
-  static const String titleEvents = 'title_events';
-  static const String titleSystem = 'title_system';
+  static const String titleCategory = 'title_category';
+  static const String titleShopCart = 'title_shopcart';
+  static const String titleMy = 'title_my';
 
-  static const String titleBookmarks = 'title_bookmarks';
-  static const String titleCollection = 'title_collection';
+  static const String titleHomeLike = 'title_homelike';
+  static const String titleHomeHot = 'title_homehot';
+
   static const String titleSetting = 'title_setting';
   static const String titleAbout = 'title_about';
   static const String titleShare = 'title_share';
@@ -27,9 +28,9 @@ class Ids {
   static const String recRepos = 'rec_repos';
   static const String recWxArticle = 'rec_wxarticle';
 
-  static const String titleReposTree = 'title_repos_tree';
+  static const String titleCategoryTree = 'title_repos_tree';
   static const String titleWxArticleTree = 'title_wxarticle_tree';
-  static const String titleSystemTree = 'title_system_tree';
+  static const String titleMyTree = 'title_system_tree';
 
   static const String user_name = 'user_name';
   static const String user_pwd = 'user_pwd';
@@ -48,11 +49,11 @@ class Ids {
 Map<String, Map<String, String>> localizedSimpleValues = {
   'en': {
     Ids.titleHome: 'Home',
-    Ids.titleRepos: 'Repos',
-    Ids.titleEvents: 'Events',
-    Ids.titleSystem: 'System',
-    Ids.titleBookmarks: 'Bookmarks',
-    Ids.titleSetting: 'Setting',
+    Ids.titleCategory: 'Category',
+    Ids.titleShopCart: 'ShopCart',
+    Ids.titleMy: 'My',
+    Ids.titleHomeLike: 'Guess You Like',
+    Ids.titleHomeHot: 'Hot Recommended',
     Ids.titleAbout: 'About',
     Ids.titleShare: 'Share',
     Ids.titleSignOut: 'Sign Out',
@@ -60,12 +61,12 @@ Map<String, Map<String, String>> localizedSimpleValues = {
     Ids.languageAuto: 'Auto',
   },
   'zh': {
-    Ids.titleHome: '主页',
-    Ids.titleRepos: '项目',
-    Ids.titleEvents: '动态',
-    Ids.titleSystem: '体系',
-    Ids.titleBookmarks: '书签',
-    Ids.titleSetting: '设置',
+    Ids.titleHome: '首页',
+    Ids.titleCategory: '分类',
+    Ids.titleShopCart: '购物车',
+    Ids.titleMy: '我的',
+    Ids.titleHomeLike: '猜你喜欢',
+    Ids.titleHomeHot: '热门推荐',
     Ids.titleAbout: '关于',
     Ids.titleShare: '分享',
     Ids.titleSignOut: '注销',
@@ -78,11 +79,11 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
   'en': {
     'US': {
       Ids.titleHome: 'Home',
-      Ids.titleRepos: 'Repos',
-      Ids.titleEvents: 'Events',
-      Ids.titleSystem: 'System',
-      Ids.titleBookmarks: 'Bookmarks',
-      Ids.titleCollection: 'Collection',
+      Ids.titleCategory: 'Category',
+      Ids.titleShopCart: 'ShopCart',
+      Ids.titleMy: 'My',
+      Ids.titleHomeLike: 'Bookmarks',
+      Ids.titleHomeHot: 'Collection',
       Ids.titleSetting: 'Setting',
       Ids.titleAbout: 'About',
       Ids.titleShare: 'Share',
@@ -93,7 +94,7 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
       Ids.more: 'More',
       Ids.recRepos: 'Reco Repos',
       Ids.recWxArticle: 'Reco WxArticle',
-      Ids.titleReposTree: 'Repos Tree',
+      Ids.titleCategoryTree: 'Repos Tree',
       Ids.titleWxArticleTree: 'Wx Article',
       Ids.titleTheme: 'Theme',
       Ids.user_name: 'user name',
@@ -110,12 +111,12 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
   },
   'zh': {
     'CN': {
-      Ids.titleHome: '主页',
-      Ids.titleRepos: '项目',
-      Ids.titleEvents: '动态',
-      Ids.titleSystem: '体系',
-      Ids.titleBookmarks: '书签',
-      Ids.titleCollection: '收藏',
+      Ids.titleHome: '首页',
+      Ids.titleCategory: '分类',
+      Ids.titleShopCart: '购物车',
+      Ids.titleMy: '我的',
+      Ids.titleHomeLike: '书签',
+      Ids.titleHomeHot: '收藏',
       Ids.titleSetting: '设置',
       Ids.titleAbout: '关于',
       Ids.titleShare: '分享',
@@ -130,7 +131,7 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
       Ids.more: '更多',
       Ids.recRepos: '推荐项目',
       Ids.recWxArticle: '推荐公众号',
-      Ids.titleReposTree: '项目分类',
+      Ids.titleCategoryTree: '项目分类',
       Ids.titleWxArticleTree: '公众号',
       Ids.titleTheme: '主题',
       Ids.user_name: '用户名',
@@ -146,11 +147,11 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
     },
     'HK': {
       Ids.titleHome: '主頁',
-      Ids.titleRepos: '項目',
-      Ids.titleEvents: '動態',
-      Ids.titleSystem: '體系',
-      Ids.titleBookmarks: '書簽',
-      Ids.titleCollection: '收藏',
+      Ids.titleCategory: '項目',
+      Ids.titleShopCart: '動態',
+      Ids.titleMy: '體系',
+      Ids.titleHomeLike: '書簽',
+      Ids.titleHomeHot: '收藏',
       Ids.titleSetting: '設置',
       Ids.titleAbout: '關於',
       Ids.titleShare: '分享',
@@ -161,7 +162,7 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
       Ids.more: '更多',
       Ids.recRepos: '推荐项目',
       Ids.recWxArticle: '推荐公众号',
-      Ids.titleReposTree: '项目分类',
+      Ids.titleCategoryTree: '项目分类',
       Ids.titleWxArticleTree: '公众号',
       Ids.titleTheme: '主題',
       Ids.user_name: '用户名',
@@ -177,11 +178,11 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
     },
     'TW': {
       Ids.titleHome: '主頁',
-      Ids.titleRepos: '項目',
-      Ids.titleEvents: '動態',
-      Ids.titleSystem: '體系',
-      Ids.titleBookmarks: '書簽',
-      Ids.titleCollection: '收藏',
+      Ids.titleCategory: '項目',
+      Ids.titleShopCart: '動態',
+      Ids.titleMy: '體系',
+      Ids.titleHomeLike: '書簽',
+      Ids.titleHomeHot: '收藏',
       Ids.titleSetting: '設置',
       Ids.titleAbout: '關於',
       Ids.titleShare: '分享',
@@ -192,7 +193,7 @@ Map<String, Map<String, Map<String, String>>> localizedValues = {
       Ids.more: '更多',
       Ids.recRepos: '推荐项目',
       Ids.recWxArticle: '推荐公众号',
-      Ids.titleReposTree: '项目分类',
+      Ids.titleCategoryTree: '项目分类',
       Ids.titleWxArticleTree: '公众号',
       Ids.titleTheme: '主題',
       Ids.user_name: '用户名',

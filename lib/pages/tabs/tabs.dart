@@ -3,6 +3,8 @@ import 'package:flutter_jdshop/pages/tabs/cartpage.dart';
 import 'package:flutter_jdshop/pages/tabs/categorypage.dart';
 import 'package:flutter_jdshop/pages/tabs/homepage.dart';
 import 'package:flutter_jdshop/pages/tabs/userpage.dart';
+import 'package:flutter_jdshop/res/strings.dart';
+import 'package:fluintl/fluintl.dart';
 
 class Tabs extends StatefulWidget {
   @override
@@ -34,13 +36,13 @@ class _TabsState extends State<Tabs> {
             });
           },
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
+            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text(IntlUtil.getString(context, Ids.titleHome))),
             BottomNavigationBarItem(
-                icon: Icon(Icons.category), title: Text("分类")),
+                icon: Icon(Icons.category), title: Text(IntlUtil.getString(context, Ids.titleCategory))),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), title: Text("购物车")),
+                icon: Icon(Icons.shopping_cart), title: Text(IntlUtil.getString(context, Ids.titleShopCart))),
             BottomNavigationBarItem(
-                icon: Icon(Icons.people), title: Text("我的")),
+                icon: Icon(Icons.people), title: Text(IntlUtil.getString(context, Ids.titleMy))),
           ]),
     );
   }

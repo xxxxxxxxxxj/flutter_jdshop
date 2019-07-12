@@ -1,7 +1,9 @@
+import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/banner_bean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/view/netimage.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
           height: ScreenAdapter.setHeight(30),
         ),
         //分类标题"猜你喜欢"
-        ColumnTitleWidget("猜你喜欢"),
+        ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeLike)),
         //间隔30像素
         SizedBox(
           height: ScreenAdapter.setHeight(30),
@@ -88,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           height: ScreenAdapter.setHeight(30),
         ),
         //分类标题"热门推荐"
-        ColumnTitleWidget("热门推荐"),
+        ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeHot)),
         //间隔30像素
         SizedBox(
           height: ScreenAdapter.setHeight(30),

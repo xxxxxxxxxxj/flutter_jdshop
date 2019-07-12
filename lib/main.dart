@@ -1,15 +1,17 @@
 import 'dart:io';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/res/index.dart';
 import 'package:flutter_jdshop/routers/router.dart';
 import 'package:device_info/device_info.dart';
 import 'data/index.dart';
 import 'package:package_info/package_info.dart';
-import 'dart:convert';
+import 'package:flustars/flustars.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fluintl/fluintl.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +28,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    setLocalizedSimpleValues(localizedSimpleValues); //配置简单多语言资源
+    //setLocalizedValues(localizedValues); //配置多语言资源
     _init();
   }
 
@@ -74,6 +78,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: "/",
       onGenerateRoute: onGenerateRoute,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        CustomLocalizations.delegate //设置本地化代理
+      ],
+      supportedLocales: CustomLocalizations.supportedLocales, //设置支持本地化语言集合
     );
   }
 }
