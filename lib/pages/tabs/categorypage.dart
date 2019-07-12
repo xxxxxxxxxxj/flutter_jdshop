@@ -131,17 +131,14 @@ class _CategoryPageState extends State<CategoryPage>
                       childAspectRatio: 1 / 1.5,
                       crossAxisSpacing: ScreenAdapter.setHeight(20),
                       crossAxisCount: 3),
-                  itemBuilder: (_, index) {
+                  itemBuilder: (context, index) {
                     return Material(
                         //解决水波纹不显示的问题
                         child: Ink(
                             child: InkWell(
                       onTap: () {
-                        if (ObjectUtil.isNotEmpty(_rightList[index].pid)) {
-                          Fluttertoast.showToast(msg: "跳转");
-                        } else {
-                          Fluttertoast.showToast(msg: "不跳转");
-                        }
+                        Navigator.pushNamed(context, "/shopList",
+                            arguments: {"pid": _rightList[index].pid});
                       },
                       child: Column(
                         children: <Widget>[

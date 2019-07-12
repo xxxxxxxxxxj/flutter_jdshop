@@ -109,7 +109,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         ? Container(
             margin: EdgeInsets.only(
                 left: ScreenAdapter.setWidth(20),
-                right: ScreenAdapter.setWidth(20)),
+                right: ScreenAdapter.setWidth(20),
+                bottom: ScreenAdapter.setHeight(20)),
             child: GridView.builder(
                 //ListView和GridView嵌套问题，以下两个属性
                 physics: new NeverScrollableScrollPhysics(),
@@ -134,6 +135,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                                   color: Color.fromRGBO(233, 233, 233, 0.9),
                                   width: ScreenAdapter.setWidth(1))),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(
