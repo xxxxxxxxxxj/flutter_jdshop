@@ -17,10 +17,13 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   List<BannerData> _bannerList = new List<BannerData>();
   List<ProductData> _likeList = new List<ProductData>();
   List<ProductData> _hotList = new List<ProductData>();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

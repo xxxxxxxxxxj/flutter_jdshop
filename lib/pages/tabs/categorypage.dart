@@ -14,9 +14,13 @@ class CategoryPage extends StatefulWidget {
   }
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends State<CategoryPage>
+    with AutomaticKeepAliveClientMixin {
   List<CategoryData> _leftList;
   List<CategoryData> _rightList;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
