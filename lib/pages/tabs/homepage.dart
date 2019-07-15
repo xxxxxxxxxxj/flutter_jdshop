@@ -4,7 +4,9 @@ import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
-import 'package:flutter_jdshop/view/netimage.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
+import 'package:flutter_jdshop/view/loading_widget.dart';
+import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/columntitle_widget.dart';
@@ -17,7 +19,8 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   List<BannerData> _bannerList = new List<BannerData>();
   List<ProductData> _likeList = new List<ProductData>();
   List<ProductData> _hotList = new List<ProductData>();
@@ -105,7 +108,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   }
 
   _getHotWidget() {
-    return (_hotList != null && _hotList.length > 0)
+    return (ObjectUtil.isNotEmpty(_hotList.length))
         ? Container(
             margin: EdgeInsets.only(
                 left: ScreenAdapter.setWidth(20),
@@ -186,7 +189,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                           )),
                     )),
           )
-        : Text("加载中...");
+        : LoadingWidget();
   }
 
   _getLikeWidget() {
@@ -232,6 +235,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                       ));
                 }),
           )
-        : Text("加载中...");
+        : LoadingWidget();
   }
 }

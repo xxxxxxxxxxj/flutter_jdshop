@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
-import 'package:flutter_jdshop/view/netimage.dart';
+import 'package:flutter_jdshop/view/loading_widget.dart';
+import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -46,8 +47,6 @@ class _BannerWidgetState extends State<BannerWidget> {
                   pagination: new SwiperPagination(),
                 )),
           )
-        : Text(
-            "加载中...",
-          );
+        : LoadingWidget();
   }
 }

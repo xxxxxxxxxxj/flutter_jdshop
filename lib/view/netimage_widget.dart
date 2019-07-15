@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
-import 'package:flutter_jdshop/view/progressview.dart';
+import 'package:flutter_jdshop/view/progressview_widget.dart';
 
 class NetImage extends StatelessWidget {
   String _imgUrl;

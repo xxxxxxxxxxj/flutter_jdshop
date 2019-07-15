@@ -177,6 +177,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.12.5"
+  md2_tab_indicator:
+    dependency: "direct main"
+    description:
+      name: md2_tab_indicator
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.2"
   meta:
     dependency: transitive
     description:
@@ -209,6 +216,13 @@ packages:
     dependency: transitive
     description:
       name: pedantic
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.5.0"
+  pull_to_refresh:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.5.0"

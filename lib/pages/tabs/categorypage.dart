@@ -4,7 +4,8 @@ import 'package:flutter_jdshop/bean/categorybean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
-import 'package:flutter_jdshop/view/netimage.dart';
+import 'package:flutter_jdshop/view/loading_widget.dart';
+import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -102,7 +103,7 @@ class _CategoryPageState extends State<CategoryPage>
             itemCount: _leftList.length),
       );
     } else {
-      return Text("加载中...");
+      return LoadingWidget();
     }
   }
 
@@ -138,7 +139,7 @@ class _CategoryPageState extends State<CategoryPage>
                             child: InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, "/shopList",
-                            arguments: {"pid": _rightList[index].pid});
+                            arguments: {"cid": _rightList[index].sId});
                       },
                       child: Column(
                         children: <Widget>[
@@ -162,7 +163,7 @@ class _CategoryPageState extends State<CategoryPage>
             )),
       );
     } else {
-      return Text("加载中...");
+      return LoadingWidget();
     }
   }
 }
