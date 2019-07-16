@@ -7,6 +7,7 @@ import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/view/emptydata_widget.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:flutter_tags/selectable_tags.dart';
@@ -36,6 +37,7 @@ class _ShopListPageState extends State<ShopListPage>
   int _pageSize = 10;
   RefreshController _refreshController =
       RefreshController(initialRefresh: true);
+  bool _isEmpty = false;
 
   @override
   void initState() {
@@ -105,6 +107,15 @@ class _ShopListPageState extends State<ShopListPage>
     setState(() {
       _productList.addAll(productBean.result);
     });
+    if (_page == 1 && _productList.length <= 0) {
+      setState(() {
+        _isEmpty = true;
+      });
+    } else {
+      setState(() {
+        _isEmpty = false;
+      });
+    }
   }
 
   @override
@@ -180,6 +191,9 @@ class _ShopListPageState extends State<ShopListPage>
 
   Widget _getListViewWidget() {
     return Container(
+      alignment: Alignment.center,
+      width: ScreenAdapter.getScreenWidth(),
+      height: ScreenAdapter.getScreenHeight(),
       margin: EdgeInsets.only(top: ScreenAdapter.setHeight(98)),
       child: SmartRefresher(
           enablePullDown: true,
@@ -212,79 +226,81 @@ class _ShopListPageState extends State<ShopListPage>
           controller: _refreshController,
           onRefresh: _onRefresh,
           onLoading: _onLoading,
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenAdapter.setWidth(20),
-                        ScreenAdapter.setHeight(20),
-                        ScreenAdapter.setWidth(20),
-                        ScreenAdapter.setHeight(20)),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                              right: ScreenAdapter.setWidth(20)),
-                          width: ScreenAdapter.setWidth(180),
-                          height: ScreenAdapter.setHeight(180),
-                          child: NetImage(_productList[index].pic),
+          child: _isEmpty
+              ? EmptyDataWidget()
+              : ListView.separated(
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(
+                            ScreenAdapter.setWidth(20),
+                            ScreenAdapter.setHeight(20),
+                            ScreenAdapter.setWidth(20),
+                            ScreenAdapter.setHeight(20)),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: ScreenAdapter.setWidth(20)),
+                              width: ScreenAdapter.setWidth(180),
+                              height: ScreenAdapter.setHeight(180),
+                              child: NetImage(_productList[index].pic),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    _productList[index].title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: ScreenAdapter.setSp(26)),
+                                  ),
+                                  SelectableTags(
+                                    borderSide: BorderSide(
+                                        color: Colors.transparent, width: 0),
+                                    color: Colors.white30,
+                                    activeColor: Colors.white30,
+                                    textColor: Colors.black,
+                                    textActiveColor: Colors.black,
+                                    alignment: MainAxisAlignment.start,
+                                    backgroundContainer: Colors.transparent,
+                                    tags: _tags,
+                                    fontSize: ScreenAdapter.setSp(20),
+                                    columns: 10,
+                                    // default 4
+                                    symmetry: false,
+                                    // default false
+                                    onPressed: (tag) => LogUtil.e(tag),
+                                  ),
+                                  Text(
+                                    "¥${_productList[index].price}",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: ScreenAdapter.setSp(26),
+                                        color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                              flex: 1,
+                            )
+                          ],
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _productList[index].title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: ScreenAdapter.setSp(26)),
-                              ),
-                              SelectableTags(
-                                borderSide: BorderSide(
-                                    color: Colors.transparent, width: 0),
-                                color: Colors.white30,
-                                activeColor: Colors.white30,
-                                textColor: Colors.black,
-                                textActiveColor: Colors.black,
-                                alignment: MainAxisAlignment.start,
-                                backgroundContainer: Colors.transparent,
-                                tags: _tags,
-                                fontSize: ScreenAdapter.setSp(20),
-                                columns: 10,
-                                // default 4
-                                symmetry: false,
-                                // default false
-                                onPressed: (tag) => LogUtil.e(tag),
-                              ),
-                              Text(
-                                "¥${_productList[index].price}",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: ScreenAdapter.setSp(26),
-                                    color: Colors.red),
-                              ),
-                            ],
-                          ),
-                          flex: 1,
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-              // 这里用来定义分割线
-              separatorBuilder: (context, index) {
-                return Divider(
-                  height: ScreenAdapter.setHeight(1),
-                  color: Colors.black26,
-                );
-              },
-              itemCount: _productList.length)),
+                      ),
+                    );
+                  },
+                  // 这里用来定义分割线
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      height: ScreenAdapter.setHeight(1),
+                      color: Colors.black26,
+                    );
+                  },
+                  itemCount: _productList.length)),
     );
   }
 }
