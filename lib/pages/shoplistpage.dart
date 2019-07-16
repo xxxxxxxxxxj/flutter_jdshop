@@ -28,7 +28,7 @@ class _ShopListPageState extends State<ShopListPage>
   List<Tag> _tags = new List<Tag>();
   TabController _tabController;
   List<String> _titleList = new List<String>();
-  List<ProductData> _productList;
+  List<ProductData> _productList = new List<ProductData>();
   int _tabIndex = 0;
   GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   int _page = 1;
@@ -60,24 +60,40 @@ class _ShopListPageState extends State<ShopListPage>
   }
 
   void _onRefresh() async {
-    _page = 1;
-    _getproductData("");
-    _refreshController.refreshCompleted();
+    _getProductData(1, "");
   }
 
   void _onLoading() async {
-    _getproductData("");
-    _refreshController.loadComplete();
+    _getProductData(2, "");
   }
 
-  _getproductData(String _sort) async {
+  _getProductData(int _flag, String _sort) async {
+    if (_flag == 1) {
+      //下拉刷新
+      _page = 1;
+      _productList.clear();
+    }
+    var _apiUrl = ApiConfig.PRODUCT_LIST +
+        "?page=${_page}&pageSize=${_pageSize}&cid=${widget.arguments["cid"]}&sort=${_sort}";
+    LogUtil.e("_apiUrl = " + _apiUrl);
     var dio = Dio();
-    Response response = await dio.get(ApiConfig.PRODUCT_LIST +
-        "?page=${_page}&pageSize=${_pageSize}&cid=${widget.arguments["cid"]}&sort=${_sort}");
+    Response response = await dio.get(_apiUrl);
     var productBean = ProductBean.fromJson(response.data);
     print(response.data);
+    if (_flag == 1) {
+      //下拉刷新
+      _refreshController.refreshCompleted();
+    } else if (_flag == 2) {
+      //上拉加载更多
+      _refreshController.loadComplete();
+    }
+    if (productBean.result.length >= _pageSize) {
+      _page++;
+    } else {
+      _refreshController.loadNoData();
+    }
     setState(() {
-      _productList = productBean.result;
+      _productList.addAll(productBean.result);
     });
   }
 
@@ -155,108 +171,111 @@ class _ShopListPageState extends State<ShopListPage>
   }
 
   Widget _getListViewWidget() {
-    return (ObjectUtil.isNotEmpty(_productList))
-        ? Container(
-            margin: EdgeInsets.only(top: ScreenAdapter.setHeight(98)),
-            child: SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                header: WaterDropHeader(),
-                footer: CustomFooter(
-                  builder: (BuildContext context, LoadStatus mode) {
-                    Widget body;
-                    if (mode == LoadStatus.idle) {
-                      body = Text("pull up load");
-                    } else if (mode == LoadStatus.loading) {
-                      body = CupertinoActivityIndicator();
-                    } else if (mode == LoadStatus.failed) {
-                      body = Text("Load Failed!Click retry!");
-                    } else {
-                      body = Text("No more Data");
-                    }
-                    return Container(
-                      height: 55.0,
-                      child: Center(child: body),
-                    );
-                  },
-                ),
-                controller: _refreshController,
-                onRefresh: _onRefresh,
-                onLoading: _onLoading,
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(
-                              ScreenAdapter.setWidth(20),
-                              ScreenAdapter.setHeight(20),
-                              ScreenAdapter.setWidth(20),
-                              ScreenAdapter.setHeight(20)),
-                          child: Row(
+    return Container(
+      margin: EdgeInsets.only(top: ScreenAdapter.setHeight(98)),
+      child: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          header: WaterDropHeader(),
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus mode) {
+              Widget body;
+              if (mode == LoadStatus.idle) {
+                body = LoadingWidget();
+              } else if (mode == LoadStatus.loading) {
+                body = LoadingWidget();
+              } else if (mode == LoadStatus.failed) {
+                body = Text("Load Failed!Click retry!");
+              } else {
+                body = Text(
+                  "--没有数据啦--",
+                  style: TextStyle(
+                      fontSize: ScreenAdapter.setSp(30), color: Colors.black26),
+                );
+              }
+              return Container(
+                alignment: Alignment.center,
+                height: ScreenAdapter.setHeight(50),
+                child: Center(child: body),
+              );
+            },
+          ),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: ListView.separated(
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(
+                        ScreenAdapter.setWidth(20),
+                        ScreenAdapter.setHeight(20),
+                        ScreenAdapter.setWidth(20),
+                        ScreenAdapter.setHeight(20)),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(
+                              right: ScreenAdapter.setWidth(20)),
+                          width: ScreenAdapter.setWidth(180),
+                          height: ScreenAdapter.setHeight(180),
+                          child: NetImage(_productList[index].pic),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(
-                                    right: ScreenAdapter.setWidth(20)),
-                                width: ScreenAdapter.setWidth(180),
-                                height: ScreenAdapter.setHeight(180),
-                                child: NetImage(_productList[index].pic),
+                              Text(
+                                _productList[index].title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: ScreenAdapter.setSp(26)),
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      _productList[index].title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: ScreenAdapter.setSp(26)),
-                                    ),
-                                    SelectableTags(
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent, width: 0),
-                                      color: Colors.white30,
-                                      activeColor: Colors.white30,
-                                      textColor: Colors.black,
-                                      textActiveColor: Colors.black,
-                                      alignment: MainAxisAlignment.start,
-                                      backgroundContainer: Colors.transparent,
-                                      tags: _tags,
-                                      fontSize: ScreenAdapter.setSp(20),
-                                      columns: 10,
-                                      // default 4
-                                      symmetry: false,
-                                      // default false
-                                      onPressed: (tag) => LogUtil.e(tag),
-                                    ),
-                                    Text(
-                                      "¥${_productList[index].price}",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: ScreenAdapter.setSp(26),
-                                          color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                                flex: 1,
-                              )
+                              SelectableTags(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent, width: 0),
+                                color: Colors.white30,
+                                activeColor: Colors.white30,
+                                textColor: Colors.black,
+                                textActiveColor: Colors.black,
+                                alignment: MainAxisAlignment.start,
+                                backgroundContainer: Colors.transparent,
+                                tags: _tags,
+                                fontSize: ScreenAdapter.setSp(20),
+                                columns: 10,
+                                // default 4
+                                symmetry: false,
+                                // default false
+                                onPressed: (tag) => LogUtil.e(tag),
+                              ),
+                              Text(
+                                "¥${_productList[index].price}",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: ScreenAdapter.setSp(26),
+                                    color: Colors.red),
+                              ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                    // 这里用来定义分割线
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: ScreenAdapter.setHeight(1),
-                        color: Colors.black26,
-                      );
-                    },
-                    itemCount: _productList.length)),
-          )
-        : LoadingWidget();
+                          flex: 1,
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+              // 这里用来定义分割线
+              separatorBuilder: (context, index) {
+                return Divider(
+                  height: ScreenAdapter.setHeight(1),
+                  color: Colors.black26,
+                );
+              },
+              itemCount: _productList.length)),
+    );
   }
 }
