@@ -91,5 +91,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   # 这边注册资源文件，以后有图片文件也可以只注册 images 文件夹，会自动读取内部的文件
   assets:
-    - assets/images/ic_data_empty.png
+    - assets/images/
 

@@ -195,40 +195,41 @@ class _ShopListPageState extends State<ShopListPage>
       width: ScreenAdapter.getScreenWidth(),
       height: ScreenAdapter.getScreenHeight(),
       margin: EdgeInsets.only(top: ScreenAdapter.setHeight(98)),
-      child: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          header: WaterDropHeader(),
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus mode) {
-              Widget body;
-              if (mode == LoadStatus.idle) {
-                body = LoadingWidget();
-              } else if (mode == LoadStatus.loading) {
-                body = LoadingWidget();
-              } else if (mode == LoadStatus.failed) {
-                body = Text("Load Failed!Click retry!");
-              } else {
-                body = Text(
-                  "--没有数据啦--",
-                  style: TextStyle(
-                      fontSize: ScreenAdapter.setSp(30), color: Colors.black26),
-                );
-              }
-              return Container(
-                width: ScreenAdapter.getScreenWidth(),
-                alignment: Alignment.center,
-                height: ScreenAdapter.setHeight(50),
-                child: Center(child: body),
-              );
-            },
-          ),
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: _isEmpty
-              ? EmptyDataWidget()
-              : ListView.separated(
+      child: _isEmpty
+          ? EmptyDataWidget()
+          : SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              header: WaterDropHeader(),
+              footer: CustomFooter(
+                builder: (BuildContext context, LoadStatus mode) {
+                  Widget body;
+                  if (mode == LoadStatus.idle) {
+                    body = LoadingWidget();
+                  } else if (mode == LoadStatus.loading) {
+                    body = LoadingWidget();
+                  } else if (mode == LoadStatus.failed) {
+                    body = Text("Load Failed!Click retry!");
+                  } else {
+                    body = Text(
+                      "--没有数据啦--",
+                      style: TextStyle(
+                          fontSize: ScreenAdapter.setSp(30),
+                          color: Colors.black26),
+                    );
+                  }
+                  return Container(
+                    width: ScreenAdapter.getScreenWidth(),
+                    alignment: Alignment.center,
+                    height: ScreenAdapter.setHeight(50),
+                    child: Center(child: body),
+                  );
+                },
+              ),
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              child: ListView.separated(
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {},
