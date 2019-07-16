@@ -6,6 +6,11 @@ class Ids {
 
   static const String titleHomeLike = 'title_homelike';
   static const String titleHomeHot = 'title_homehot';
+  static const String titleProductList = 'title_product_list';
+  static const String titleProductComprehensive = 'title_product_comprehensive';
+  static const String titleProductSales = 'title_product_sales';
+  static const String titleProductPrice = 'title_product_price';
+  static const String titleProductScreening = 'title_product_screening';
 
   static const String titleSetting = 'title_setting';
   static const String titleAbout = 'title_about';
@@ -54,11 +59,11 @@ Map<String, Map<String, String>> localizedSimpleValues = {
     Ids.titleMy: 'My',
     Ids.titleHomeLike: 'Guess You Like',
     Ids.titleHomeHot: 'Hot Recommended',
-    Ids.titleAbout: 'About',
-    Ids.titleShare: 'Share',
-    Ids.titleSignOut: 'Sign Out',
-    Ids.titleLanguage: 'Language',
-    Ids.languageAuto: 'Auto',
+    Ids.titleProductList: 'List of goods',
+    Ids.titleProductComprehensive: 'Comprehensive',
+    Ids.titleProductSales: 'Sales',
+    Ids.titleProductPrice: 'Price',
+    Ids.titleProductScreening: 'Screening',
   },
   'zh': {
     Ids.titleHome: '首页',
@@ -67,11 +72,11 @@ Map<String, Map<String, String>> localizedSimpleValues = {
     Ids.titleMy: '我的',
     Ids.titleHomeLike: '猜你喜欢',
     Ids.titleHomeHot: '热门推荐',
-    Ids.titleAbout: '关于',
-    Ids.titleShare: '分享',
-    Ids.titleSignOut: '注销',
-    Ids.titleLanguage: '多语言',
-    Ids.languageAuto: '跟随系统',
+    Ids.titleProductList: '商品列表',
+    Ids.titleProductComprehensive: '综合',
+    Ids.titleProductSales: '销量',
+    Ids.titleProductPrice: '价格',
+    Ids.titleProductScreening: '筛选',
   },
 };
 

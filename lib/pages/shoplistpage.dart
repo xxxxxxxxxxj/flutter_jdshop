@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:fluintl/fluintl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
-import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
@@ -39,14 +40,23 @@ class _ShopListPageState extends State<ShopListPage>
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _init();
+  }
+
+  void _init() {
     _tags.add(new Tag(title: "4g", active: false));
     _tags.add(new Tag(title: "热卖", active: false));
     _tags.add(new Tag(title: "新用户专享", active: false));
     _tags.add(new Tag(title: "10086", active: false));
-    _titleList.add("综合");
-    _titleList.add("销量");
-    _titleList.add("价格");
-    _titleList.add("筛选");
+    _titleList.add(IntlUtil.getString(context, Ids.titleProductComprehensive));
+    _titleList.add(IntlUtil.getString(context, Ids.titleProductSales));
+    _titleList.add(IntlUtil.getString(context, Ids.titleProductPrice));
+    _titleList.add(IntlUtil.getString(context, Ids.titleProductScreening));
     _tabController = new TabController(length: _titleList.length, vsync: this);
     _tabController.addListener(() {
       _tabIndex = _tabController.index;
@@ -110,13 +120,11 @@ class _ShopListPageState extends State<ShopListPage>
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text("商品列表"),
+        title: Text(IntlUtil.getString(context, Ids.titleProductList)),
         actions: <Widget>[Text("")],
       ),
       endDrawer: Drawer(
-        child: Container(
-          child: Text("筛选"),
-        ),
+        child: Container(),
       ),
       body: Stack(
         children: <Widget>[
@@ -194,6 +202,7 @@ class _ShopListPageState extends State<ShopListPage>
                 );
               }
               return Container(
+                width: ScreenAdapter.getScreenWidth(),
                 alignment: Alignment.center,
                 height: ScreenAdapter.setHeight(50),
                 child: Center(child: body),
