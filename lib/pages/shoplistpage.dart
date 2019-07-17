@@ -135,7 +135,9 @@ class _ShopListPageState extends State<ShopListPage>
         actions: <Widget>[Text("")],
       ),
       endDrawer: Drawer(
-        child: Container(),
+        child: Container(
+
+        ),
       ),
       body: Stack(
         children: <Widget>[

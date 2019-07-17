@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/pages/tabs/cartpage.dart';
 import 'package:flutter_jdshop/pages/tabs/categorypage.dart';
 import 'package:flutter_jdshop/pages/tabs/homepage.dart';
 import 'package:flutter_jdshop/pages/tabs/userpage.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:fluintl/fluintl.dart';
+import 'package:flutter_jdshop/util/sp_util.dart';
 
 class Tabs extends StatefulWidget {
   @override
@@ -21,6 +23,7 @@ class _TabsState extends State<Tabs> {
   @override
   void initState() {
     super.initState();
+    SpUtil.putBool(SPKey.key_isguide, true);
     _pageController = new PageController(initialPage: _currentIndex);
   }
 

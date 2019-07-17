@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/categorybean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
@@ -138,7 +139,7 @@ class _CategoryPageState extends State<CategoryPage>
                         child: Ink(
                             child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, "/shopList",
+                        Navigator.pushNamed(context, PageName.route_shoplist,
                             arguments: {"cid": _rightList[index].sId});
                       },
                       child: Column(

@@ -2,18 +2,33 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/pages/splashpage.dart';
+import 'package:flutter_jdshop/pages/tabs/tabs.dart';
 import 'package:flutter_jdshop/res/index.dart';
 import 'package:flutter_jdshop/routers/router.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
+import 'package:flutter_jdshop/util/sp_util.dart';
 import 'data/index.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluintl/fluintl.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]).then((_) {
+    runApp(MyApp());
+    if (Platform.isAndroid) {
+      // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+      var systemUiOverlayStyle =
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    }
+  });
+}
 
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);
@@ -34,6 +49,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() async {
+    //初始化SpUtil
+    await SpUtil.getInstance();
     //初始化日志模块
     LogUtil.init(isDebug: AppConfig.isLogDeBug, tag: AppConfig.logTag);
     //初始化网络请求模块
@@ -76,7 +93,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/",
+      routes: {
+        PageName.route_main: (context) => Tabs(),
+      },
+      home: new SplashPage(),
+      debugShowCheckedModeBanner: false,
+      //initialRoute: "/splashPage",
       onGenerateRoute: onGenerateRoute,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
