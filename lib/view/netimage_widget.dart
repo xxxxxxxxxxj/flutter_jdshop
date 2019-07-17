@@ -15,8 +15,12 @@ class NetImage extends StatelessWidget {
       if (!_imgUrl.startsWith("http://") && !_imgUrl.startsWith("https://")) {
         _imgUrl = ApiConfig.BASE_URL + _imgUrl;
       }
-      _imgUrl = _imgUrl.replaceAll('\\', '/');
+      if (_imgUrl.contains('\\')) {
+        _imgUrl = _imgUrl.replaceAll('\\', '/');
+      }
       return CachedNetworkImage(
+        width: double.infinity,
+        height: double.infinity,
         fit: BoxFit.fill,
         imageUrl: _imgUrl,
         placeholder: (context, url) => new ProgressView(),

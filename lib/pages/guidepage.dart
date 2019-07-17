@@ -1,5 +1,7 @@
+import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -42,15 +44,14 @@ class _GuidePageState extends State<GuidePage> {
                 margin: EdgeInsets.only(bottom: 160.0),
                 child: new InkWell(
                   onTap: () {
-                    Navigator.popAndPushNamed(context, PageName.route_main);
+                    Navigator.pushReplacementNamed(context, PageName.route_main);
                   },
                   child: new CircleAvatar(
                     radius: 48.0,
                     backgroundColor: Colors.indigoAccent,
                     child: new Padding(
                       padding: EdgeInsets.all(2.0),
-                      child: new Text(
-                        '立即体验',
+                      child: new Text(IntlUtil.getString(context, Ids.titleExperienceImmediately),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 16.0),
                       ),

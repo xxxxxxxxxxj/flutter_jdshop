@@ -21,13 +21,21 @@ class _SplashPageState extends State<SplashPage> {
     _init();
   }
 
-  void _init() {
+  void _init() async {
+    //初始化SpUtil
+    await SpUtil.getInstance();
     bool isGuide = SpUtil.getBool(SPKey.key_isguide);
     LogUtil.e("isGuide = ${isGuide}");
     if (isGuide) {
       //进入主界面
       //请求开屏广告
-
+      Navigator.pushReplacementNamed(context, PageName.route_openad,
+          arguments: {
+            "_imgUrl":
+                "https://raw.githubusercontent.com/Sky24n/LDocuments/master/AppImgs/flutter_common_utils_a.png",
+            "_point": JumpToPoint.webview,
+            "_backup": "https://www.jianshu.com/p/425a7ff9d66e"
+          });
     } else {
       //进入引导页
       _doCountDown();
@@ -35,11 +43,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _doCountDown() {
-    _timerUtil = new TimerUtil(mTotalTime: 2 * 1000);
+    _timerUtil = new TimerUtil(mTotalTime: 3 * 1000);
     _timerUtil.setOnTimerTickCallback((int tick) {
       double _tick = tick / 1000;
       if (_tick == 0) {
-        Navigator.popAndPushNamed(context, PageName.route_guide);
+        Navigator.pushReplacementNamed(context, PageName.route_guide);
       }
     });
     _timerUtil.startCountDown();

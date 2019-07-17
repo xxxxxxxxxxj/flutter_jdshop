@@ -11,6 +11,12 @@ class Ids {
   static const String titleProductSales = 'title_product_sales';
   static const String titleProductPrice = 'title_product_price';
   static const String titleProductScreening = 'title_product_screening';
+  static const String titleExperienceImmediately = 'title_experience_immediately';
+
+  static const String jump_count = 'jump_count';
+  static const String loading = 'loading';
+  static const String open_browser = 'open_browser';
+  static const String share = 'share';
 
   static const String titleSetting = 'title_setting';
   static const String titleAbout = 'title_about';
@@ -48,7 +54,7 @@ class Ids {
   static const String confirm = 'confirm';
   static const String cancel = 'cancel';
 
-  static const String jump_count = 'jump_count';
+
 }
 
 Map<String, Map<String, String>> localizedSimpleValues = {
@@ -64,6 +70,11 @@ Map<String, Map<String, String>> localizedSimpleValues = {
     Ids.titleProductSales: 'Sales',
     Ids.titleProductPrice: 'Price',
     Ids.titleProductScreening: 'Screening',
+    Ids.titleExperienceImmediately: 'Experience Immediately',
+    Ids.jump_count: 'Jump %\$0\$s',
+    Ids.loading: 'Loading',
+    Ids.open_browser: 'Open Browser',
+    Ids.share: 'Share',
   },
   'zh': {
     Ids.titleHome: '首页',
@@ -77,6 +88,11 @@ Map<String, Map<String, String>> localizedSimpleValues = {
     Ids.titleProductSales: '销量',
     Ids.titleProductPrice: '价格',
     Ids.titleProductScreening: '筛选',
+    Ids.titleExperienceImmediately: '立即体验',
+    Ids.jump_count: '跳过 %\$0\$s',
+    Ids.loading: '加载中...',
+    Ids.open_browser: '浏览器打开',
+    Ids.share: '分享',
   },
 };
 
