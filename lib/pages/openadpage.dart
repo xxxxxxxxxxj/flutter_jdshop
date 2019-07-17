@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/color.dart';
 import 'package:flutter_jdshop/res/strings.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
+import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/timer_util.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
@@ -25,6 +27,11 @@ class _OpenAdPageState extends State<OpenAdPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _doCountDown();
   }
 
@@ -49,6 +56,7 @@ class _OpenAdPageState extends State<OpenAdPage> {
         children: <Widget>[
           InkWell(
             onTap: () {
+              _timerUtil.cancel();
               Navigator.pushReplacementNamed(context, PageName.route_main);
               Utils.JumpTo(context, widget.arguments["_point"],
                   map: {"url": widget.arguments["_backup"]});
@@ -79,5 +87,13 @@ class _OpenAdPageState extends State<OpenAdPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if(ObjectUtil.isNotEmpty(_timerUtil)){
+      _timerUtil.cancel();
+    }
+    super.dispose();
   }
 }

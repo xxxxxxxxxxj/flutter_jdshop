@@ -4,7 +4,7 @@ import 'package:flutter_jdshop/res/color.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/res/styles.dart';
 import 'package:flutter_jdshop/util/utils.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share/share.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -19,61 +19,29 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
   String _title;
   String _url;
-
-  //获取h5页面标题
-  Future<String> getWebTitle() async {
-    String script = 'window.document.title';
-    var title = await _flutterWebviewPlugin.evalJavascript(script);
-    setState(() {
-      this._title = title;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _url = widget.arguments["url"];
     _title = IntlUtil.getString(context, Ids.loading);
-    /**
-     * 监听web页加载状态
-     */
-    _flutterWebviewPlugin.onStateChanged
-        .listen((WebViewStateChanged webViewState) async {
-      switch (webViewState.type) {
-        case WebViewState.finishLoad:
-          handleJs();
-          getWebTitle();
-          break;
-        case WebViewState.shouldStart:
-          break;
-        case WebViewState.startLoad:
-          break;
-        case WebViewState.abortLoad:
-          break;
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
-      url: _url,
-      //默认加载地址
+    return Scaffold(
       appBar: AppBar(
         title: Text(
           _title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-        ),
-        backgroundColor: Colors.grey,
-        leading: GestureDetector(
-          child: Icon(Icons.arrow_back),
-          onTap: () {
-            _flutterWebviewPlugin.close();
-          },
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -129,8 +97,10 @@ class _WebViewPageState extends State<WebViewPage> {
                   ])
         ],
       ),
-      scrollBar: false,
-      withZoom: false,
+      body: new WebView(
+        initialUrl: _url,
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 
@@ -139,23 +109,11 @@ class _WebViewPageState extends State<WebViewPage> {
       case "browser":
         Utils.launchInBrowser(_url);
         break;
-      case "collection":
-        break;
       case "share":
         Share.share('$_title : $_url');
         break;
       default:
         break;
     }
-  }
-
-  @override
-  void dispose() {
-    _flutterWebviewPlugin.dispose();
-    super.dispose();
-  }
-
-  void handleJs() {
-    _flutterWebviewPlugin.evalJavascript("abc(${_title}')").then((result) {});
   }
 }

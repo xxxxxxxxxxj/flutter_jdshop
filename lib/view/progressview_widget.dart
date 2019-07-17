@@ -6,10 +6,10 @@ class ProgressView extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Center(
       child: new SizedBox(
-        width: ScreenAdapter.setWidth(24.0),
-        height: ScreenAdapter.setHeight(24.0),
+        width: 24.0,
+        height: 24.0,
         child: new CircularProgressIndicator(
-          strokeWidth: ScreenAdapter.setWidth(2.0),
+          strokeWidth: 2.0,
         ),
       ),
     );

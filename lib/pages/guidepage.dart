@@ -24,6 +24,11 @@ class _GuidePageState extends State<GuidePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _initBannerData();
   }
 
@@ -82,6 +87,7 @@ class _GuidePageState extends State<GuidePage> {
         },
         itemCount: _bannerList.length,
         autoplay: false,
+        loop: false,
         pagination: new SwiperPagination(),
       ),
     );

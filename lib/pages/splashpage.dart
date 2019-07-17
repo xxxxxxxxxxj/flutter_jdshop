@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/sp_util.dart';
 import 'package:flutter_jdshop/util/timer_util.dart';
 import 'package:flutter_jdshop/util/utils.dart';
@@ -65,7 +66,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void dispose() {
-    _timerUtil.cancel();
+    if(ObjectUtil.isNotEmpty(_timerUtil)){
+      _timerUtil.cancel();
+    }
     super.dispose();
   }
 }
