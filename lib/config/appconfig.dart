@@ -14,6 +14,7 @@ class PageName {
   static const String route_shoplist = "route_shoplist";
   static const String route_openad = "route_openad";
   static const String route_webview = "route_webview";
+  static const String route_serch = "route_serch";
 }
 
 class JumpToPoint {

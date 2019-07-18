@@ -4,7 +4,6 @@ import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/color.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
-import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/timer_util.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';

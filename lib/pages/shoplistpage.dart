@@ -62,6 +62,7 @@ class _ShopListPageState extends State<ShopListPage>
     _tabController = new TabController(length: _titleList.length, vsync: this);
     _tabController.addListener(() {
       _tabIndex = _tabController.index;
+      LogUtil.e("_tabIndex = ${_tabIndex}");
       if (_tabIndex == 0) {
       } else if (_tabIndex == 1) {
       } else if (_tabIndex == 2) {
@@ -135,9 +136,7 @@ class _ShopListPageState extends State<ShopListPage>
         actions: <Widget>[Text("")],
       ),
       endDrawer: Drawer(
-        child: Container(
-
-        ),
+        child: Container(),
       ),
       body: Stack(
         children: <Widget>[
