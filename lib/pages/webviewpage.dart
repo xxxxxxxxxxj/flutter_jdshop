@@ -4,7 +4,7 @@ import 'package:flutter_jdshop/res/color.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/res/styles.dart';
 import 'package:flutter_jdshop/util/utils.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:share/share.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -19,8 +19,18 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
+  FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
   String _title;
   String _url;
+
+  //获取h5页面标题
+  Future<String> getWebTitle() async {
+    String script = 'window.document.title';
+    var title = await _flutterWebviewPlugin.evalJavascript(script);
+    setState(() {
+      this._title = title;
+    });
+  }
 
   @override
   void initState() {
@@ -32,75 +42,103 @@ class _WebViewPageState extends State<WebViewPage> {
     super.didChangeDependencies();
     _url = widget.arguments["url"];
     _title = IntlUtil.getString(context, Ids.loading);
+    /**
+     * 监听web页加载状态
+     */
+    _flutterWebviewPlugin.onStateChanged
+        .listen((WebViewStateChanged webViewState) async {
+      switch (webViewState.type) {
+        case WebViewState.finishLoad:
+          handleJs();
+          getWebTitle();
+          break;
+        case WebViewState.shouldStart:
+          break;
+        case WebViewState.startLoad:
+          break;
+        case WebViewState.abortLoad:
+          break;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          new PopupMenuButton(
-              padding: const EdgeInsets.all(0.0),
-              onSelected: _onPopSelected,
-              itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-                    new PopupMenuItem<String>(
-                        value: "browser",
-                        child: ListTile(
-                            contentPadding: EdgeInsets.all(0.0),
-                            dense: false,
-                            title: new Container(
-                              alignment: Alignment.center,
-                              child: new Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.language,
-                                    color: Colours.gray_66,
-                                    size: 22.0,
-                                  ),
-                                  Gaps.hGap10,
-                                  Text(
-                                    IntlUtil.getString(
-                                        context, Ids.open_browser),
-                                    style: TextStyles.listContent,
-                                  )
-                                ],
-                              ),
-                            ))),
-                    new PopupMenuItem<String>(
-                        value: "share",
-                        child: ListTile(
-                            contentPadding: EdgeInsets.all(0.0),
-                            dense: false,
-                            title: new Container(
-                              alignment: Alignment.center,
-                              child: new Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.share,
-                                    color: Colours.gray_66,
-                                    size: 22.0,
-                                  ),
-                                  Gaps.hGap10,
-                                  Text(
-                                    IntlUtil.getString(context, Ids.share),
-                                    style: TextStyles.listContent,
-                                  )
-                                ],
-                              ),
-                            ))),
-                  ])
-        ],
+      appBar: _getAppBarWidget(),
+      body: WebviewScaffold(
+        url: _url,
+        scrollBar: false,
+        withZoom: false,
       ),
-      body: new WebView(
-        initialUrl: _url,
-        javascriptMode: JavascriptMode.unrestricted,
+    );
+  }
+
+  Widget _getAppBarWidget() {
+    return AppBar(
+      title: Text(
+        _title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
+      leading: GestureDetector(
+        child: Icon(Icons.arrow_back),
+        onTap: () {
+          _flutterWebviewPlugin.goBack();
+        },
+      ),
+      centerTitle: true,
+      actions: <Widget>[
+        new PopupMenuButton(
+            padding: const EdgeInsets.all(0.0),
+            onSelected: _onPopSelected,
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+                  new PopupMenuItem<String>(
+                      value: "browser",
+                      child: ListTile(
+                          contentPadding: EdgeInsets.all(0.0),
+                          dense: false,
+                          title: new Container(
+                            alignment: Alignment.center,
+                            child: new Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.language,
+                                  color: Colours.gray_66,
+                                  size: 22.0,
+                                ),
+                                Gaps.hGap10,
+                                Text(
+                                  IntlUtil.getString(context, Ids.open_browser),
+                                  style: TextStyles.listContent,
+                                )
+                              ],
+                            ),
+                          ))),
+                  new PopupMenuItem<String>(
+                      value: "share",
+                      child: ListTile(
+                          contentPadding: EdgeInsets.all(0.0),
+                          dense: false,
+                          title: new Container(
+                            alignment: Alignment.center,
+                            child: new Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.share,
+                                  color: Colours.gray_66,
+                                  size: 22.0,
+                                ),
+                                Gaps.hGap10,
+                                Text(
+                                  IntlUtil.getString(context, Ids.share),
+                                  style: TextStyles.listContent,
+                                )
+                              ],
+                            ),
+                          ))),
+                ])
+      ],
     );
   }
 
@@ -115,5 +153,15 @@ class _WebViewPageState extends State<WebViewPage> {
       default:
         break;
     }
+  }
+
+  @override
+  void dispose() {
+    _flutterWebviewPlugin.dispose();
+    super.dispose();
+  }
+
+  void handleJs() {
+    _flutterWebviewPlugin.evalJavascript("abc(${_title}')").then((result) {});
   }
 }

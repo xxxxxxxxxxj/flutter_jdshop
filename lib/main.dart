@@ -98,7 +98,6 @@ class _MyAppState extends State<MyApp> {
       },
       home: new SplashPage(),
       debugShowCheckedModeBanner: false,
-      //initialRoute: "/splashPage",
       onGenerateRoute: onGenerateRoute,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
