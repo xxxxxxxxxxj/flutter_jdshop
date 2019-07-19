@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
         PageName.route_main: (context) => Tabs(),
       },
       home: new SplashPage(),
-      theme: ThemeData(primaryColor: Colors.white),
+      theme: ThemeData(primaryColor: Colors.blue),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoute,
       localizationsDelegates: [

@@ -20,6 +20,7 @@ class _CategoryPageState extends State<CategoryPage>
     with AutomaticKeepAliveClientMixin {
   List<CategoryData> _leftList;
   List<CategoryData> _rightList;
+  int _currentIndex = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -65,7 +66,6 @@ class _CategoryPageState extends State<CategoryPage>
   }
 
   _getLeftWidget() {
-    int _currentIndex = 0;
     if (ObjectUtil.isNotEmpty(_leftList)) {
       return Container(
         width: ScreenAdapter.getScreenWidthDp() / 4,

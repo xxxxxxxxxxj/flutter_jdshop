@@ -204,35 +204,34 @@ class _HomePageState extends State<HomePage>
                 scrollDirection: Axis.horizontal,
                 itemCount: _likeList.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
+                  return Container(
+                    width: ScreenAdapter.setWidth(140),
+                    height: double.infinity,
+                    margin: index == _likeList.length - 1
+                        ? null
+                        : EdgeInsets.only(right: ScreenAdapter.setWidth(20)),
+                    alignment: Alignment.center,
+                    child: InkWell(
                       //能够点击
                       onTap: () {},
-                      child: Container(
-                        width: ScreenAdapter.setWidth(140),
-                        height: double.infinity,
-                        margin: index == _likeList.length - 1
-                            ? null
-                            : EdgeInsets.only(
-                                right: ScreenAdapter.setWidth(20)),
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: ScreenAdapter.setWidth(140),
-                              height: ScreenAdapter.setHeight(140),
-                              margin: EdgeInsets.only(bottom: 10),
-                              child: NetImage(_likeList[index].pic),
-                            ),
-                            Text(
-                              _likeList[index].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(fontSize: ScreenAdapter.setSp(26)),
-                            )
-                          ],
-                        ),
-                      ));
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: ScreenAdapter.setWidth(140),
+                            height: ScreenAdapter.setHeight(140),
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: NetImage(_likeList[index].pic),
+                          ),
+                          Text(
+                            _likeList[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
                 }),
           )
         : LoadingWidget();
