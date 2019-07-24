@@ -6,6 +6,7 @@ import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/emptydata_widget.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
@@ -26,7 +27,7 @@ class ShopListPage extends StatefulWidget {
 }
 
 class _ShopListPageState extends State<ShopListPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   List<Tag> _tags = new List<Tag>();
   TabController _tabController;
   List<String> _titleList = new List<String>();
@@ -38,10 +39,20 @@ class _ShopListPageState extends State<ShopListPage>
   RefreshController _refreshController =
       RefreshController(initialRefresh: true);
   bool _isEmpty = false;
+  String _cid;
+  String _keywords;
+  TextEditingController _textEditingController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _cid = widget.arguments["cid"];
+    _keywords = widget.arguments["keywords"];
+    _textEditingController.text = _keywords;
+    _tags.add(new Tag(title: "4g", active: false));
+    _tags.add(new Tag(title: "热卖", active: false));
+    _tags.add(new Tag(title: "新用户专享", active: false));
+    _tags.add(new Tag(title: "10086", active: false));
   }
 
   @override
@@ -51,10 +62,7 @@ class _ShopListPageState extends State<ShopListPage>
   }
 
   void _init() {
-    _tags.add(new Tag(title: "4g", active: false));
-    _tags.add(new Tag(title: "热卖", active: false));
-    _tags.add(new Tag(title: "新用户专享", active: false));
-    _tags.add(new Tag(title: "10086", active: false));
+    _titleList.clear();
     _titleList.add(IntlUtil.getString(context, Ids.titleProductComprehensive));
     _titleList.add(IntlUtil.getString(context, Ids.titleProductSales));
     _titleList.add(IntlUtil.getString(context, Ids.titleProductPrice));
@@ -86,8 +94,14 @@ class _ShopListPageState extends State<ShopListPage>
       _page = 1;
       _productList.clear();
     }
-    var _apiUrl = ApiConfig.PRODUCT_LIST +
-        "?page=${_page}&pageSize=${_pageSize}&cid=${widget.arguments["cid"]}&sort=${_sort}";
+    String _apiUrl = "";
+    if (ObjectUtil.isNotEmpty(_cid)) {
+      _apiUrl = ApiConfig.PRODUCT_LIST +
+          "?page=${_page}&pageSize=${_pageSize}&cid=${_cid}&sort=${_sort}";
+    } else if (ObjectUtil.isNotEmpty(_keywords)) {
+      _apiUrl = ApiConfig.PRODUCT_LIST +
+          "?page=${_page}&pageSize=${_pageSize}&search=${_keywords}&sort=${_sort}";
+    }
     LogUtil.e("_apiUrl = " + _apiUrl);
     var dio = Dio();
     Response response = await dio.get(_apiUrl);
@@ -132,8 +146,45 @@ class _ShopListPageState extends State<ShopListPage>
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text(IntlUtil.getString(context, Ids.titleProductList)),
-        actions: <Widget>[Text("")],
+        title: Container(
+          height: ScreenAdapter.setHeight(70),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(233, 233, 233, 0.8),
+              borderRadius: BorderRadius.circular(30)),
+          child: TextField(
+            controller: _textEditingController,
+            onChanged: (String value) {
+              setState(() {
+                this._keywords = value;
+              });
+            },
+            style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
+            autofocus: false,
+            //自动获取焦点，弹起键盘
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none)),
+          ),
+        ),
+        actions: <Widget>[
+          InkWell(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+              _onRefresh();
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                  left: ScreenAdapter.setWidth(40),
+                  right: ScreenAdapter.setWidth(40)),
+              alignment: Alignment.center,
+              child: Text(
+                "搜索",
+                style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
+              ),
+            ),
+          )
+        ],
       ),
       endDrawer: Drawer(
         child: Container(),

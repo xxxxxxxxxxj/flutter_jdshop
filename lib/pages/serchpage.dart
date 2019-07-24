@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 
 class SerchPage extends StatefulWidget {
@@ -11,14 +12,28 @@ class SerchPage extends StatefulWidget {
 class _SerchPageState extends State<SerchPage> {
   List<String> _hotTagList = List<String>();
   List<String> _historyList = List<String>();
+  String _keywords;
 
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 10; i++) {
-      _hotTagList.add("笔记本");
-      _historyList.add("电脑");
-    }
+    _hotTagList.add("笔记本");
+    _hotTagList.add("电脑");
+    _hotTagList.add("手机");
+    _hotTagList.add("男装");
+    _hotTagList.add("女装");
+    _hotTagList.add("裤子");
+    _hotTagList.add("鞋子");
+    _hotTagList.add("你是猪吗？");
+    _historyList.add("电脑");
+    _historyList.add("笔记本");
+    _historyList.add("电脑");
+    _historyList.add("手机");
+    _historyList.add("男装");
+    _historyList.add("女装");
+    _historyList.add("裤子");
+    _historyList.add("鞋子");
+    _historyList.add("你是猪吗？");
   }
 
   @override
@@ -32,6 +47,9 @@ class _SerchPageState extends State<SerchPage> {
               color: Color.fromRGBO(233, 233, 233, 0.8),
               borderRadius: BorderRadius.circular(30)),
           child: TextField(
+            onChanged: (String value) {
+              this._keywords = value;
+            },
             style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
             autofocus: true, //自动获取焦点，弹起键盘
             decoration: InputDecoration(
@@ -42,7 +60,10 @@ class _SerchPageState extends State<SerchPage> {
         ),
         actions: <Widget>[
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, PageName.route_shoplist,
+                  arguments: {"keywords": _keywords});
+            },
             child: Container(
               margin: EdgeInsets.only(
                   left: ScreenAdapter.setWidth(40),
@@ -122,7 +143,10 @@ class _SerchPageState extends State<SerchPage> {
                 color: Color.fromRGBO(233, 233, 233, 0.9),
                 borderRadius: BorderRadius.circular(10)),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacementNamed(context, PageName.route_shoplist,
+                    arguments: {"keywords": _hotTagList[index]});
+              },
               child: Text(
                 _hotTagList[index],
                 style: TextStyle(fontSize: ScreenAdapter.setSp(24)),
@@ -139,7 +163,10 @@ class _SerchPageState extends State<SerchPage> {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacementNamed(context, PageName.route_shoplist,
+                    arguments: {"keywords": _historyList[index]});
+              },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 alignment: Alignment.centerLeft,
