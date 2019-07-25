@@ -16,6 +16,7 @@ class PageName {
   static const String route_openad = "route_openad";
   static const String route_webview = "route_webview";
   static const String route_serch = "route_serch";
+  static const String route_gooddetail = "route_gooddetail";
 }
 
 class JumpToPoint {

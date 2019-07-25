@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
@@ -125,7 +126,10 @@ class _HomePageState extends State<HomePage>
                     crossAxisSpacing: ScreenAdapter.setHeight(20),
                     childAspectRatio: 1 / 1.4),
                 itemBuilder: (context, index) => InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, PageName.route_gooddetail,
+                            arguments: {"id": _hotList[index].sId});
+                      },
                       child: Container(
                           padding: EdgeInsets.only(
                               left: ScreenAdapter.setWidth(20),
@@ -213,7 +217,10 @@ class _HomePageState extends State<HomePage>
                     alignment: Alignment.center,
                     child: InkWell(
                       //能够点击
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, PageName.route_gooddetail,
+                            arguments: {"id": _likeList[index].sId});
+                      },
                       child: Column(
                         children: <Widget>[
                           Container(

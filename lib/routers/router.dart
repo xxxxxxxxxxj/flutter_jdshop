@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/pages/gooddetailpage.dart';
 import 'package:flutter_jdshop/pages/guidepage.dart';
 import 'package:flutter_jdshop/pages/openadpage.dart';
 import 'package:flutter_jdshop/pages/serchpage.dart';
@@ -21,6 +22,8 @@ final routers = {
   PageName.route_webview: (context, {Map arguments}) =>
       WebViewPage(arguments: arguments),
   PageName.route_serch: (context) => SerchPage(),
+  PageName.route_gooddetail: (context, {Map arguments}) =>
+      GoodDetailPage(arguments: arguments),
 }; //固定写法
 
 var onGenerateRoute = (RouteSettings settings) {

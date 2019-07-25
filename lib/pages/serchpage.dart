@@ -1,5 +1,7 @@
+import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/services/serchhistory.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
@@ -78,7 +80,7 @@ class _SerchPageState extends State<SerchPage> {
                   right: ScreenAdapter.setWidth(40)),
               alignment: Alignment.center,
               child: Text(
-                "搜索",
+                IntlUtil.getString(context, Ids.titleHome),
                 style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/services/serchhistory.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
@@ -185,8 +186,8 @@ class _ShopListPageState extends State<ShopListPage>
                   left: ScreenAdapter.setWidth(40),
                   right: ScreenAdapter.setWidth(40)),
               alignment: Alignment.center,
-              child: Text(
-                "搜索",
+              child: Text(IntlUtil.getString(
+                  context, Ids.titleHome),
                 style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
               ),
             ),
@@ -291,7 +292,10 @@ class _ShopListPageState extends State<ShopListPage>
               child: ListView.separated(
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, PageName.route_gooddetail,
+                            arguments: {"id": _productList[index].sId});
+                      },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(
                             ScreenAdapter.setWidth(20),
