@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
+import 'package:flutter_jdshop/services/serchhistory.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_jdshop/view/emptydata_widget.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:flutter_tags/selectable_tags.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -169,9 +171,14 @@ class _ShopListPageState extends State<ShopListPage>
         ),
         actions: <Widget>[
           InkWell(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-              _onRefresh();
+            onTap: () async {
+              if (ObjectUtil.isNotEmpty(_keywords)) {
+                await SerchHistory.addSerchHistory(_keywords);
+                FocusScope.of(context).requestFocus(FocusNode());
+                _onRefresh();
+              } else {
+                Fluttertoast.showToast(msg: "请输入搜索关键字");
+              }
             },
             child: Container(
               margin: EdgeInsets.only(

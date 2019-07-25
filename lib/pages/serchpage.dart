@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/services/serchhistory.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SerchPage extends StatefulWidget {
   @override
@@ -25,15 +28,15 @@ class _SerchPageState extends State<SerchPage> {
     _hotTagList.add("裤子");
     _hotTagList.add("鞋子");
     _hotTagList.add("你是猪吗？");
-    _historyList.add("电脑");
-    _historyList.add("笔记本");
-    _historyList.add("电脑");
-    _historyList.add("手机");
-    _historyList.add("男装");
-    _historyList.add("女装");
-    _historyList.add("裤子");
-    _historyList.add("鞋子");
-    _historyList.add("你是猪吗？");
+    _getHistoryData();
+  }
+
+  void _getHistoryData() async {
+    var serchHistory = await SerchHistory.getSerchHistory();
+    setState(() {
+      this._historyList.clear();
+      this._historyList.addAll(serchHistory);
+    });
   }
 
   @override
@@ -60,9 +63,14 @@ class _SerchPageState extends State<SerchPage> {
         ),
         actions: <Widget>[
           InkWell(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, PageName.route_shoplist,
-                  arguments: {"keywords": _keywords});
+            onTap: () async {
+              if (ObjectUtil.isNotEmpty(_keywords)) {
+                await SerchHistory.addSerchHistory(_keywords);
+                Navigator.pushReplacementNamed(context, PageName.route_shoplist,
+                    arguments: {"keywords": _keywords});
+              } else {
+                Fluttertoast.showToast(msg: "请输入搜索关键字");
+              }
             },
             child: Container(
               margin: EdgeInsets.only(
@@ -93,6 +101,17 @@ class _SerchPageState extends State<SerchPage> {
           ),
           //热搜标签
           _getHotTagWidget(),
+          _getHistoryColumn(),
+        ],
+      ),
+    );
+  }
+
+  _getHistoryColumn() {
+    if (ObjectUtil.isNotEmpty(_historyList)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
           Container(
             margin: EdgeInsets.all(10),
             child: Text(
@@ -113,15 +132,17 @@ class _SerchPageState extends State<SerchPage> {
           ),
           Container(
             margin: EdgeInsets.only(
-                left: ScreenAdapter.setWidth(10),
-                right: ScreenAdapter.setWidth(10),
+                left: ScreenAdapter.setWidth(15),
+                right: ScreenAdapter.setWidth(15),
                 top: ScreenAdapter.setHeight(100),
                 bottom: ScreenAdapter.setHeight(100)),
-            height: ScreenAdapter.setHeight(100),
+            height: ScreenAdapter.setHeight(90),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black54, width: 1)),
             child: InkWell(
-                onTap: () {},
+                onTap: () async {
+                  await _showAlertDialog("");
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,8 +150,10 @@ class _SerchPageState extends State<SerchPage> {
                 )),
           ),
         ],
-      ),
-    );
+      );
+    } else {
+      return Text("");
+    }
   }
 
   _getHotTagWidget() {
@@ -143,7 +166,8 @@ class _SerchPageState extends State<SerchPage> {
                 color: Color.fromRGBO(233, 233, 233, 0.9),
                 borderRadius: BorderRadius.circular(10)),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
+                await SerchHistory.addSerchHistory(_hotTagList[index]);
                 Navigator.pushReplacementNamed(context, PageName.route_shoplist,
                     arguments: {"keywords": _hotTagList[index]});
               },
@@ -168,14 +192,29 @@ class _SerchPageState extends State<SerchPage> {
                     arguments: {"keywords": _historyList[index]});
               },
               child: Container(
-                margin: EdgeInsets.only(left: 10),
-                alignment: Alignment.centerLeft,
-                height: ScreenAdapter.setHeight(80),
-                child: Text(
-                  _historyList[index],
-                  style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
-                ),
-              ));
+                  margin: EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  height: ScreenAdapter.setHeight(80),
+                  child: Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          _historyList[index],
+                          style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                            iconSize: 20,
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              _showAlertDialog(_historyList[index]);
+                            }),
+                      ),
+                    ],
+                  )));
         },
         // 这里用来定义分割线
         separatorBuilder: (context, index) {
@@ -185,5 +224,40 @@ class _SerchPageState extends State<SerchPage> {
           );
         },
         itemCount: _historyList.length);
+  }
+
+  _showAlertDialog(value) async {
+    var result = await showDialog(
+        barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("提示信息!"),
+            content: ObjectUtil.isNotEmpty(value)
+                ? Text("您确定要删除${value}吗?")
+                : Text("您确定要清空搜索历史吗?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("取消"),
+                onPressed: () {
+                  print("取消");
+                  Navigator.pop(context, 'Cancle');
+                },
+              ),
+              FlatButton(
+                child: Text("确定"),
+                onPressed: () async {
+                  if (ObjectUtil.isNotEmpty(value)) {
+                    await SerchHistory.removeSerchHistory(value);
+                  } else {
+                    await SerchHistory.clearSerchHistory();
+                  }
+                  this._getHistoryData();
+                  Navigator.pop(context, "Ok");
+                },
+              )
+            ],
+          );
+        });
   }
 }

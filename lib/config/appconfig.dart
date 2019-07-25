@@ -5,6 +5,7 @@ class AppConfig {
 
 class SPKey {
   static const String key_isguide = "key_isguide";
+  static const String key_serchhistory = "key_serchhistory";
 }
 
 class PageName {
