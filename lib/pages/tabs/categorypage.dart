@@ -5,6 +5,7 @@ import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -87,7 +88,7 @@ class _CategoryPageState extends State<CategoryPage>
                       ? Color.fromRGBO(240, 246, 246, 0.9)
                       : Colors.white,
                   child: Text(
-                    _leftList[index].title,
+                    Utils.getStr(_leftList[index].title),
                     style: TextStyle(fontSize: ScreenAdapter.setSp(28)),
                     textAlign: TextAlign.center,
                     maxLines: 1,
@@ -152,7 +153,7 @@ class _CategoryPageState extends State<CategoryPage>
                                 child: NetImage(_rightList[index].pic),
                               )),
                           Text(
-                            _rightList[index].title,
+                            Utils.getStr(_rightList[index].title),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: ScreenAdapter.setSp(26)),

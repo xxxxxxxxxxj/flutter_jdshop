@@ -77,7 +77,7 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget _getAppBarWidget() {
     return AppBar(
       title: Text(
-        _title,
+        Utils.getStr(_title),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

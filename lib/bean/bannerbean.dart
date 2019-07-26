@@ -28,6 +28,8 @@ class BannerData {
   String pic;
   String url;
 
+  BannerData.name(this.pic);
+
   BannerData({this.sId, this.title, this.status, this.pic, this.url});
 
   BannerData.fromJson(Map<String, dynamic> json) {

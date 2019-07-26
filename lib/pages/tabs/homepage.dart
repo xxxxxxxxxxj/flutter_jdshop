@@ -6,6 +6,7 @@ import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
@@ -156,7 +157,7 @@ class _HomePageState extends State<HomePage>
                                 padding: EdgeInsets.only(
                                     bottom: ScreenAdapter.setHeight(20)),
                                 child: Text(
-                                  _hotList[index].title,
+                                  Utils.getStr(_hotList[index].title),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage>
                                   Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "¥${_hotList[index].price}",
+                                      "¥${Utils.getStr(_hotList[index].price)}",
                                       style: TextStyle(
                                           color: Colors.red,
                                           fontSize: ScreenAdapter.setSp(26)),
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage>
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      "¥${_hotList[index].oldPrice}",
+                                      "¥${Utils.getStr(_hotList[index].oldPrice)}",
                                       style: TextStyle(
                                           color: Colors.black54,
                                           //中间加横线
@@ -230,7 +231,7 @@ class _HomePageState extends State<HomePage>
                             child: NetImage(_likeList[index].pic),
                           ),
                           Text(
-                            _likeList[index].title,
+                            Utils.getStr(_likeList[index].title),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: ScreenAdapter.setSp(26)),

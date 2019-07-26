@@ -10,6 +10,7 @@ import 'package:flutter_jdshop/services/serchhistory.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/emptydata_widget.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
@@ -186,8 +187,8 @@ class _ShopListPageState extends State<ShopListPage>
                   left: ScreenAdapter.setWidth(40),
                   right: ScreenAdapter.setWidth(40)),
               alignment: Alignment.center,
-              child: Text(IntlUtil.getString(
-                  context, Ids.titleHome),
+              child: Text(
+                IntlUtil.getString(context, Ids.titleHome),
                 style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
               ),
             ),
@@ -317,7 +318,7 @@ class _ShopListPageState extends State<ShopListPage>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    _productList[index].title,
+                                    Utils.getStr(_productList[index].title),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -341,7 +342,7 @@ class _ShopListPageState extends State<ShopListPage>
                                     onPressed: (tag) => LogUtil.e(tag),
                                   ),
                                   Text(
-                                    "¥${_productList[index].price}",
+                                    "¥${Utils.getStr(_productList[index].price)}",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(

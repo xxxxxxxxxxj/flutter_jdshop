@@ -1,11 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
+import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailfirst.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailsecond.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailthird.dart';
 import 'package:flutter_jdshop/res/strings.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/goodbutton.dart';
+import 'package:flutter_jdshop/view/loading_widget.dart';
 
 class GoodDetailPage extends StatefulWidget {
   Map arguments;
@@ -19,6 +24,25 @@ class GoodDetailPage extends StatefulWidget {
 }
 
 class _GoodDetailPageState extends State<GoodDetailPage> {
+  GoodsDetailData _goodsDetailData;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  _getData() async {
+    var dio = Dio();
+    Response response =
+        await dio.get(ApiConfig.GOODS_DETAIL + "?id=" + widget.arguments["id"]);
+    var goodsDetailBean = GoodsDetailBean.fromJson(response.data);
+    print(response.data);
+    setState(() {
+      _goodsDetailData = goodsDetailBean.result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
@@ -84,83 +108,85 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                 }),
           ],
         ),
-        body: Stack(
-          children: <Widget>[
-            TabBarView(children: [
-              GoodsDetailFirst(),
-              GoodsDetailSecond(),
-              GoodsDetailThird(),
-            ]),
-            Positioned(
-                bottom: 0,
-                child: Container(
-                  width: ScreenAdapter.setWidth(750),
-                  height: ScreenAdapter.setHeight(100),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                          top: BorderSide(
-                              color: Colors.black38,
-                              width: ScreenAdapter.setWidth(1)))),
-                  child: Row(
-                    children: <Widget>[
-                      Material(
-                          //解决水波纹不显示的问题
-                          child: Ink(
-                              child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              right: ScreenAdapter.setWidth(15),
-                              left: ScreenAdapter.setWidth(15)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.shopping_cart,
-                                size: 20,
+        body: ObjectUtil.isNotEmpty(_goodsDetailData)
+            ? Stack(
+                children: <Widget>[
+                  TabBarView(children: [
+                    GoodsDetailFirst(_goodsDetailData),
+                    GoodsDetailSecond(),
+                    GoodsDetailThird(),
+                  ]),
+                  Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: ScreenAdapter.setWidth(750),
+                        height: ScreenAdapter.setHeight(100),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.black38,
+                                    width: ScreenAdapter.setWidth(1)))),
+                        child: Row(
+                          children: <Widget>[
+                            Material(
+                                //解决水波纹不显示的问题
+                                child: Ink(
+                                    child: InkWell(
+                              onTap: () {},
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    right: ScreenAdapter.setWidth(15),
+                                    left: ScreenAdapter.setWidth(15)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.shopping_cart,
+                                      size: 20,
+                                    ),
+                                    Text(
+                                      "购物车",
+                                      style: TextStyle(
+                                          fontSize: ScreenAdapter.setSp(24)),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text(
-                                "购物车",
-                                style: TextStyle(
-                                    fontSize: ScreenAdapter.setSp(24)),
-                              )
-                            ],
-                          ),
+                            ))),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    right: ScreenAdapter.setWidth(15)),
+                                child: GoodButton(
+                                  color: Color.fromRGBO(253, 1, 0, 0.9),
+                                  text: "加入购物车",
+                                  cb: () {
+                                    print('加入购物车');
+                                  },
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: ScreenAdapter.setWidth(15)),
+                                  child: GoodButton(
+                                    color: Color.fromRGBO(255, 165, 0, 0.9),
+                                    text: "立即购买",
+                                    cb: () {
+                                      print('立即购买');
+                                    },
+                                  )),
+                            )
+                          ],
                         ),
-                      ))),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              right: ScreenAdapter.setWidth(15)),
-                          child: GoodButton(
-                            color: Color.fromRGBO(253, 1, 0, 0.9),
-                            text: "加入购物车",
-                            cb: () {
-                              print('加入购物车');
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            margin: EdgeInsets.only(
-                                right: ScreenAdapter.setWidth(15)),
-                            child: GoodButton(
-                              color: Color.fromRGBO(255, 165, 0, 0.9),
-                              text: "立即购买",
-                              cb: () {
-                                print('立即购买');
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                )),
-          ],
-        ),
+                      )),
+                ],
+              )
+            : LoadingWidget(),
       ),
     );
   }

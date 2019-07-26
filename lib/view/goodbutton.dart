@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 
 class GoodButton extends StatefulWidget {
   final Color color;
@@ -27,7 +28,7 @@ class _GoodButtonState extends State<GoodButton> {
             color: widget.color, borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: Text(
-            "${widget.text}",
+            "${Utils.getStr(widget.text)}",
             style: TextStyle(color: Colors.white),
           ),
         ),

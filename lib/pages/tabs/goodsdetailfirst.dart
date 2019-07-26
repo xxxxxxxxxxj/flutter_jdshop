@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
-import 'package:flutter_jdshop/bean/goodsspecifications.dart';
+import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/goodbutton.dart';
 
 class GoodsDetailFirst extends StatefulWidget {
+  GoodsDetailData _goodsDetailData;
+
+  GoodsDetailFirst(this._goodsDetailData);
+
   @override
   State<StatefulWidget> createState() {
     return _GoodsDetailFirstState();
@@ -13,42 +18,16 @@ class GoodsDetailFirst extends StatefulWidget {
 }
 
 class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
+  GoodsDetailData _goodsDetailData;
   List<BannerData> _bannerList = new List<BannerData>();
-  String _title = "";
-  String _subTitle = "";
-  double _price = 0;
-  double _listPrice = 0;
   String _freight = "";
   String _selectSpecifications = "";
-  List<GoodsSpecifications> _specificationsList =
-      new List<GoodsSpecifications>();
 
   @override
   void initState() {
     super.initState();
-    List<GoodsSpecificationsData> _dataList1 =
-        new List<GoodsSpecificationsData>();
-    _dataList1.add(new GoodsSpecificationsData(1, "白色"));
-    _dataList1.add(new GoodsSpecificationsData(2, "黑加黑色"));
-    _dataList1.add(new GoodsSpecificationsData(3, "黄色"));
-    _dataList1.add(new GoodsSpecificationsData(4, "蓝靛紫色色"));
-    _dataList1.add(new GoodsSpecificationsData(5, "灰蓝靛紫哦色"));
-    _dataList1.add(new GoodsSpecificationsData(6, "紫色"));
-    _dataList1.add(new GoodsSpecificationsData(7, "青色"));
-    _specificationsList.add(new GoodsSpecifications("颜色：", _dataList1));
-    List<GoodsSpecificationsData> _dataList2 =
-        new List<GoodsSpecificationsData>();
-    _dataList2.add(new GoodsSpecificationsData(1, "1寸"));
-    _dataList2.add(new GoodsSpecificationsData(2, "33333寸"));
-    _dataList2.add(new GoodsSpecificationsData(3, "186寸"));
-    _dataList2.add(new GoodsSpecificationsData(4, "99999999寸"));
-    _dataList2.add(new GoodsSpecificationsData(5, "91246139寸"));
-    _dataList2.add(new GoodsSpecificationsData(6, "3寸"));
-    _dataList2.add(new GoodsSpecificationsData(7, "9寸"));
-    _specificationsList.add(new GoodsSpecifications("尺寸：", _dataList2));
-    _specificationsList.add(new GoodsSpecifications("尺寸：", _dataList2));
-    _specificationsList.add(new GoodsSpecifications("尺寸：", _dataList2));
-    _specificationsList.add(new GoodsSpecifications("尺寸：", _dataList2));
+    _goodsDetailData = widget._goodsDetailData;
+    _bannerList.add(new BannerData.name(_goodsDetailData.pic));
   }
 
   @override
@@ -62,22 +41,26 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
         SizedBox(
           height: ScreenAdapter.setHeight(30),
         ),
-        Text(
-          _title,
-          style:
-              TextStyle(fontSize: ScreenAdapter.setSp(36), color: Colors.black),
-        ),
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
-        ),
-        Text(
-          _subTitle,
-          style: TextStyle(
-              fontSize: ScreenAdapter.setSp(28), color: Colors.black26),
-        ),
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
-        ),
+        Container(
+            margin: EdgeInsets.only(
+                left: ScreenAdapter.setWidth(15),
+                right: ScreenAdapter.setWidth(15),
+                bottom: ScreenAdapter.setHeight(30)),
+            child: Text(
+              Utils.getStr(_goodsDetailData.title),
+              style: TextStyle(
+                  fontSize: ScreenAdapter.setSp(36), color: Colors.black),
+            )),
+        Container(
+            margin: EdgeInsets.only(
+                left: ScreenAdapter.setWidth(15),
+                right: ScreenAdapter.setWidth(15),
+                bottom: ScreenAdapter.setHeight(30)),
+            child: Text(
+              Utils.getStr(_goodsDetailData.subTitle),
+              style: TextStyle(
+                  fontSize: ScreenAdapter.setSp(28), color: Colors.black26),
+            )),
         Container(
           margin: EdgeInsets.only(
               left: ScreenAdapter.setWidth(15),
@@ -96,7 +79,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                             color: Colors.black54),
                       ),
                       Text(
-                        "¥${_price}",
+                        "¥${Utils.getStr(_goodsDetailData.price)}",
                         style: TextStyle(
                             fontSize: ScreenAdapter.setSp(36),
                             color: Colors.red),
@@ -115,7 +98,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                             color: Colors.black54),
                       ),
                       Text(
-                        "¥${_listPrice}",
+                        "¥${Utils.getStr(_goodsDetailData.oldPrice)}",
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenAdapter.setSp(36),
@@ -145,7 +128,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                         fontSize: ScreenAdapter.setSp(24), color: Colors.black),
                   ),
                   Text(
-                    _selectSpecifications,
+                    Utils.getStr(_selectSpecifications),
                     style: TextStyle(
                         fontSize: ScreenAdapter.setSp(24),
                         color: Colors.black54),
@@ -172,7 +155,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                       fontSize: ScreenAdapter.setSp(24), color: Colors.black),
                 ),
                 Text(
-                  _freight,
+                  Utils.getStr(_freight),
                   style: TextStyle(
                       fontSize: ScreenAdapter.setSp(24), color: Colors.black54),
                 ),
@@ -203,7 +186,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                       right: ScreenAdapter.setWidth(15),
                       top: ScreenAdapter.setHeight(15)),
                   child: ListView.builder(
-                      itemCount: _specificationsList.length,
+                      itemCount: _goodsDetailData.attr.length,
                       itemBuilder: (context, index) {
                         return Wrap(
                           children: <Widget>[
@@ -211,7 +194,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                               margin: EdgeInsets.only(
                                   top: ScreenAdapter.setHeight(40)),
                               child: Text(
-                                _specificationsList[index].title,
+                                Utils.getStr(_goodsDetailData.attr[index].cate),
                                 style: TextStyle(
                                     fontSize: ScreenAdapter.setSp(26),
                                     color: Colors.black),
@@ -219,16 +202,15 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
                             ),
                             Wrap(
                               children: List.generate(
-                                  _specificationsList[index].dataList.length,
+                                  _goodsDetailData.attr[index].list.length,
                                   (index1) {
                                 return Container(
                                   margin: EdgeInsets.only(
                                       left: ScreenAdapter.setWidth(15)),
                                   child: Chip(
                                     label: Text(
-                                      _specificationsList[index]
-                                          .dataList[index1]
-                                          .title,
+                                      Utils.getStr(_goodsDetailData
+                                          .attr[index].list[index1]),
                                       style: TextStyle(
                                           fontSize: ScreenAdapter.setSp(24)),
                                     ),

@@ -6,4 +6,5 @@ class ApiConfig {
   static final String HOME_HOT = BASE_URL + "api/plist?is_best=1";
   static final String CATEGORY = BASE_URL + "api/pcate";
   static final String PRODUCT_LIST = BASE_URL + "api/plist";
+  static final String GOODS_DETAIL = BASE_URL + "api/pcontent";
 }

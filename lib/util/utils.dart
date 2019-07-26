@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
+  static Object getStr(Object str) {
+    if (ObjectUtil.isNotEmpty(str)) {
+      return str;
+    } else {
+      return "";
+    }
+  }
+
   static String getImgPath(String name, {String format: 'png'}) {
     return 'assets/images/$name.$format';
   }

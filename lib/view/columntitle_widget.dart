@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/util/utils.dart';
 
 class ColumnTitleWidget extends StatefulWidget {
   String _title;
@@ -34,7 +35,7 @@ class _ColumnTitleWidgetState extends State<ColumnTitleWidget> {
         width: ScreenAdapter.setWidth(10),
       ))),
       child: Text(
-        this._title,
+        Utils.getStr(this._title),
         style:
             TextStyle(fontSize: ScreenAdapter.setSp(36), color: Colors.black54),
       ),
