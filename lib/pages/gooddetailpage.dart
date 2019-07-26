@@ -40,6 +40,15 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
     print(response.data);
     setState(() {
       _goodsDetailData = goodsDetailBean.result;
+      List<Attr> attr = _goodsDetailData.attr;
+      for (int i = 0; i < attr.length; i++) {
+        List<String> list = attr[i].list;
+        List<AttrData> attrList = new List<AttrData>();
+        for (int j = 0; j < list.length; j++) {
+          attrList.add(new AttrData(list[j], false));
+        }
+        attr[i].attrList = attrList;
+      }
     });
   }
 
@@ -113,7 +122,7 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                 children: <Widget>[
                   TabBarView(children: [
                     GoodsDetailFirst(_goodsDetailData),
-                    GoodsDetailSecond(),
+                    GoodsDetailSecond(widget.arguments["id"]),
                     GoodsDetailThird(),
                   ]),
                   Positioned(

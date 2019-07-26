@@ -17,11 +17,15 @@ class GoodsDetailFirst extends StatefulWidget {
   }
 }
 
-class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
+class _GoodsDetailFirstState extends State<GoodsDetailFirst>
+    with AutomaticKeepAliveClientMixin {
   GoodsDetailData _goodsDetailData;
   List<BannerData> _bannerList = new List<BannerData>();
   String _freight = "";
   String _selectSpecifications = "";
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -173,97 +177,150 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return GestureDetector(
-            onTap: () {
-              return false;
-            },
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                      bottom: ScreenAdapter.setHeight(100),
-                      left: ScreenAdapter.setWidth(15),
-                      right: ScreenAdapter.setWidth(15),
-                      top: ScreenAdapter.setHeight(15)),
-                  child: ListView.builder(
-                      itemCount: _goodsDetailData.attr.length,
-                      itemBuilder: (context, index) {
-                        return Wrap(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: ScreenAdapter.setHeight(40)),
-                              child: Text(
-                                Utils.getStr(_goodsDetailData.attr[index].cate),
-                                style: TextStyle(
-                                    fontSize: ScreenAdapter.setSp(26),
-                                    color: Colors.black),
-                              ),
-                            ),
-                            Wrap(
-                              children: List.generate(
-                                  _goodsDetailData.attr[index].list.length,
-                                  (index1) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      left: ScreenAdapter.setWidth(15)),
-                                  child: Chip(
-                                    label: Text(
-                                      Utils.getStr(_goodsDetailData
-                                          .attr[index].list[index1]),
-                                      style: TextStyle(
-                                          fontSize: ScreenAdapter.setSp(24)),
-                                    ),
-                                    padding: EdgeInsets.all(5),
-                                  ),
-                                );
-                              }),
-                            )
-                          ],
-                        );
-                      }),
-                ),
-                Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: ScreenAdapter.setWidth(750),
-                      height: ScreenAdapter.setHeight(100),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: ScreenAdapter.setWidth(15),
-                                  right: ScreenAdapter.setWidth(15)),
-                              child: GoodButton(
-                                color: Color.fromRGBO(253, 1, 0, 0.9),
-                                text: "加入购物车",
-                                cb: () {
-                                  print('加入购物车');
-                                },
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
+          return StatefulBuilder(builder: (context, setBottomState) {
+            return GestureDetector(
+              onTap: () {
+                return false;
+              },
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                        bottom: ScreenAdapter.setHeight(100),
+                        left: ScreenAdapter.setWidth(15),
+                        right: ScreenAdapter.setWidth(15),
+                        top: ScreenAdapter.setHeight(15)),
+                    child: ListView.builder(
+                        itemCount: _goodsDetailData.attr.length,
+                        itemBuilder: (context, index) {
+                          return Wrap(
+                            children: <Widget>[
+                              Container(
                                 margin: EdgeInsets.only(
+                                    top: ScreenAdapter.setHeight(40)),
+                                child: Text(
+                                  Utils.getStr(
+                                      _goodsDetailData.attr[index].cate),
+                                  style: TextStyle(
+                                      fontSize: ScreenAdapter.setSp(26),
+                                      color: Colors.black),
+                                ),
+                              ),
+                              Wrap(
+                                children: List.generate(
+                                    _goodsDetailData
+                                        .attr[index].attrList.length, (index1) {
+                                  return Container(
+                                    margin: EdgeInsets.only(
+                                        left: ScreenAdapter.setWidth(15)),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setBottomState(() {
+                                          for (int i = 0;
+                                              i <
+                                                  _goodsDetailData.attr[index]
+                                                      .attrList.length;
+                                              i++) {
+                                            _goodsDetailData.attr[index]
+                                                .attrList[i].isSelect = false;
+                                          }
+                                          _goodsDetailData.attr[index]
+                                              .attrList[index1].isSelect = true;
+                                        });
+                                        List<String> _attrList =
+                                            new List<String>();
+                                        _attrList.clear();
+                                        setState(() {
+                                          for (int i = 0;
+                                              i <
+                                                  _goodsDetailData.attr[index]
+                                                      .attrList.length;
+                                              i++) {
+                                            if (_goodsDetailData.attr[index]
+                                                .attrList[i].isSelect) {
+                                              _attrList.add(_goodsDetailData
+                                                  .attr[index]
+                                                  .attrList[i]
+                                                  .cate);
+                                            }
+                                          }
+                                          _selectSpecifications =
+                                              _attrList.join(",");
+                                        });
+                                      },
+                                      child: Chip(
+                                        backgroundColor: _goodsDetailData
+                                                .attr[index]
+                                                .attrList[index1]
+                                                .isSelect
+                                            ? Colors.red
+                                            : Colors.black12,
+                                        label: Text(
+                                          Utils.getStr(_goodsDetailData
+                                              .attr[index]
+                                              .attrList[index1]
+                                              .cate),
+                                          style: TextStyle(
+                                              color: _goodsDetailData
+                                                      .attr[index]
+                                                      .attrList[index1]
+                                                      .isSelect
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontSize:
+                                                  ScreenAdapter.setSp(24)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              )
+                            ],
+                          );
+                        }),
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: ScreenAdapter.setWidth(750),
+                        height: ScreenAdapter.setHeight(100),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: ScreenAdapter.setWidth(15),
                                     right: ScreenAdapter.setWidth(15)),
                                 child: GoodButton(
-                                  color: Color.fromRGBO(255, 165, 0, 0.9),
-                                  text: "立即购买",
+                                  color: Color.fromRGBO(253, 1, 0, 0.9),
+                                  text: "加入购物车",
                                   cb: () {
-                                    print('立即购买');
+                                    print('加入购物车');
                                   },
-                                )),
-                          )
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-          );
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: ScreenAdapter.setWidth(15)),
+                                  child: GoodButton(
+                                    color: Color.fromRGBO(255, 165, 0, 0.9),
+                                    text: "立即购买",
+                                    cb: () {
+                                      print('立即购买');
+                                    },
+                                  )),
+                            )
+                          ],
+                        ),
+                      )),
+                ],
+              ),
+            );
+          });
         });
   }
 }

@@ -100,6 +100,7 @@ class GoodsDetailData {
 class Attr {
   String cate;
   List<String> list;
+  List<AttrData> attrList;
 
   Attr({this.cate, this.list});
 
@@ -114,4 +115,11 @@ class Attr {
     data['list'] = this.list;
     return data;
   }
+}
+
+class AttrData {
+  String cate;
+  bool isSelect;
+
+  AttrData(this.cate, this.isSelect);
 }

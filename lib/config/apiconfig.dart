@@ -7,4 +7,5 @@ class ApiConfig {
   static final String CATEGORY = BASE_URL + "api/pcate";
   static final String PRODUCT_LIST = BASE_URL + "api/plist";
   static final String GOODS_DETAIL = BASE_URL + "api/pcontent";
+  static final String GOODS_DETAIL_WEBVIEW = BASE_URL + "pcontent";
 }
