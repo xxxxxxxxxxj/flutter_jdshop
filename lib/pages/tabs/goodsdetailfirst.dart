@@ -23,6 +23,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
   List<BannerData> _bannerList = new List<BannerData>();
   String _freight = "";
   String _selectSpecifications = "";
+  List<String> _localAttrList = new List<String>();
 
   @override
   bool get wantKeepAlive => true;
@@ -173,7 +174,67 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
     );
   }
 
+  Widget _getAttrWidget(List<Attr> attrList, int index, setBottomState) {
+    Attr attr = attrList[index];
+    return Wrap(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: ScreenAdapter.setHeight(40)),
+          child: Text(
+            Utils.getStr(attr.cate),
+            style: TextStyle(
+                fontSize: ScreenAdapter.setSp(26), color: Colors.black),
+          ),
+        ),
+        Wrap(
+          children: List.generate(attr.attrList.length, (index1) {
+            List<AttrData> attrDataList = attr.attrList;
+            AttrData attrData = attrDataList[index1];
+            return Container(
+              margin: EdgeInsets.only(left: ScreenAdapter.setWidth(15)),
+              child: InkWell(
+                onTap: () {
+                  setBottomState(() {
+                    for (int i = 0; i < attrDataList.length; i++) {
+                      attrDataList[i].isSelect = false;
+                      if (i == index1) {
+                        attrDataList[i].isSelect = true;
+                      }
+                    }
+                  });
+                  setState(() {
+                    for (int i = 0; i < attrList.length; i++) {
+                      var attrList2 = attrList[i].attrList;
+                      for (int j = 0; j < attrList2.length; j++) {
+                        if (attrList2[j].isSelect &&
+                            !_localAttrList.contains(attrList2[j].cate)) {
+                          _localAttrList.add(attrList2[j].cate);
+                        }
+                      }
+                    }
+                    _selectSpecifications = _localAttrList.join(",");
+                  });
+                },
+                child: Chip(
+                  backgroundColor:
+                      attrData.isSelect ? Colors.red : Colors.black12,
+                  label: Text(
+                    Utils.getStr(attrData.cate),
+                    style: TextStyle(
+                        color: attrData.isSelect ? Colors.white : Colors.black,
+                        fontSize: ScreenAdapter.setSp(24)),
+                  ),
+                ),
+              ),
+            );
+          }),
+        )
+      ],
+    );
+  }
+
   void _showBottomDialog() {
+    _localAttrList.clear();
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -193,90 +254,8 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                     child: ListView.builder(
                         itemCount: _goodsDetailData.attr.length,
                         itemBuilder: (context, index) {
-                          return Wrap(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: ScreenAdapter.setHeight(40)),
-                                child: Text(
-                                  Utils.getStr(
-                                      _goodsDetailData.attr[index].cate),
-                                  style: TextStyle(
-                                      fontSize: ScreenAdapter.setSp(26),
-                                      color: Colors.black),
-                                ),
-                              ),
-                              Wrap(
-                                children: List.generate(
-                                    _goodsDetailData
-                                        .attr[index].attrList.length, (index1) {
-                                  return Container(
-                                    margin: EdgeInsets.only(
-                                        left: ScreenAdapter.setWidth(15)),
-                                    child: InkWell(
-                                      onTap: () {
-                                        setBottomState(() {
-                                          for (int i = 0;
-                                              i <
-                                                  _goodsDetailData.attr[index]
-                                                      .attrList.length;
-                                              i++) {
-                                            _goodsDetailData.attr[index]
-                                                .attrList[i].isSelect = false;
-                                          }
-                                          _goodsDetailData.attr[index]
-                                              .attrList[index1].isSelect = true;
-                                        });
-                                        List<String> _attrList =
-                                            new List<String>();
-                                        _attrList.clear();
-                                        setState(() {
-                                          for (int i = 0;
-                                              i <
-                                                  _goodsDetailData.attr[index]
-                                                      .attrList.length;
-                                              i++) {
-                                            if (_goodsDetailData.attr[index]
-                                                .attrList[i].isSelect) {
-                                              _attrList.add(_goodsDetailData
-                                                  .attr[index]
-                                                  .attrList[i]
-                                                  .cate);
-                                            }
-                                          }
-                                          _selectSpecifications =
-                                              _attrList.join(",");
-                                        });
-                                      },
-                                      child: Chip(
-                                        backgroundColor: _goodsDetailData
-                                                .attr[index]
-                                                .attrList[index1]
-                                                .isSelect
-                                            ? Colors.red
-                                            : Colors.black12,
-                                        label: Text(
-                                          Utils.getStr(_goodsDetailData
-                                              .attr[index]
-                                              .attrList[index1]
-                                              .cate),
-                                          style: TextStyle(
-                                              color: _goodsDetailData
-                                                      .attr[index]
-                                                      .attrList[index1]
-                                                      .isSelect
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                              fontSize:
-                                                  ScreenAdapter.setSp(24)),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              )
-                            ],
-                          );
+                          return _getAttrWidget(
+                              _goodsDetailData.attr, index, setBottomState);
                         }),
                   ),
                   Positioned(
