@@ -18,10 +18,7 @@ class _GoodButtonState extends State<GoodButton> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return Material(
-        //解决水波纹不显示的问题
-        child: Ink(
-            child: InkWell(
+    return InkWell(
       onTap: this.widget.cb,
       child: Container(
         height: ScreenAdapter.setHeight(68),
@@ -35,6 +32,6 @@ class _GoodButtonState extends State<GoodButton> {
           ),
         ),
       ),
-    )));
+    );
   }
 }
