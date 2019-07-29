@@ -23,9 +23,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  List<BannerData> _bannerList = new List<BannerData>();
-  List<ProductData> _likeList = new List<ProductData>();
-  List<ProductData> _hotList = new List<ProductData>();
+  List<BannerData> _bannerList;
+  List<ProductData> _likeList;
+  List<ProductData> _hotList;
 
   @override
   bool get wantKeepAlive => true;
@@ -80,7 +80,9 @@ class _HomePageState extends State<HomePage>
     return ListView(
       children: <Widget>[
         //头部banner
-        BannerWidget(_bannerList, 2.0),
+        ObjectUtil.isNotEmpty(_bannerList)
+            ? BannerWidget(_bannerList, 2.0)
+            : LoadingWidget(),
         //间隔30像素
         SizedBox(
           height: ScreenAdapter.setHeight(30),
@@ -110,7 +112,7 @@ class _HomePageState extends State<HomePage>
   }
 
   _getHotWidget() {
-    return (ObjectUtil.isNotEmpty(_hotList.length))
+    return (ObjectUtil.isNotEmpty(_hotList))
         ? Container(
             margin: EdgeInsets.only(
                 left: ScreenAdapter.setWidth(20),
@@ -198,7 +200,7 @@ class _HomePageState extends State<HomePage>
   }
 
   _getLikeWidget() {
-    return (_likeList != null && _likeList.length > 0)
+    return (ObjectUtil.isNotEmpty(_likeList))
         ? Container(
             margin: EdgeInsets.only(
                 left: ScreenAdapter.setWidth(20),

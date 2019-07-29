@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
+import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
@@ -26,27 +27,25 @@ class _BannerWidgetState extends State<BannerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return (_bannerList != null && _bannerList.length > 0)
-        ? Container(
-            child: AspectRatio(
-                aspectRatio: aspectRatio,
-                child: Swiper(
-                  onTap: (index) {
-                    if (ObjectUtil.isNotEmpty(_bannerList[index].url)) {
-                      Fluttertoast.showToast(msg: "跳转");
-                    } else {
-                      Fluttertoast.showToast(msg: "不跳转");
-                    }
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    return NetImage(_bannerList[index].pic);
-                  },
-                  itemCount: _bannerList.length,
-                  autoplay: true,
-                  autoplayDelay: 3000,
-                  pagination: new SwiperPagination(),
-                )),
-          )
-        : LoadingWidget();
+    return Container(
+      child: AspectRatio(
+          aspectRatio: aspectRatio,
+          child: Swiper(
+            onTap: (index) {
+              if (ObjectUtil.isNotEmpty(_bannerList[index].url)) {
+                Fluttertoast.showToast(msg: "跳转");
+              } else {
+                Fluttertoast.showToast(msg: "不跳转");
+              }
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return NetImage(_bannerList[index].pic);
+            },
+            itemCount: _bannerList.length,
+            autoplay: true,
+            autoplayDelay: 3000,
+            pagination: new SwiperPagination(),
+          )),
+    );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
+import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/goodbutton.dart';
+import 'package:flutter_jdshop/view/loading_widget.dart';
 
 class GoodsDetailFirst extends StatefulWidget {
   GoodsDetailData _goodsDetailData;
@@ -41,7 +43,9 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
     return ListView(
       children: <Widget>[
         //头部banner
-        BannerWidget(_bannerList, 16 / 9),
+        ObjectUtil.isNotEmpty(_bannerList)
+            ? BannerWidget(_bannerList, 16 / 9)
+            : LoadingWidget(),
         //间隔30像素
         SizedBox(
           height: ScreenAdapter.setHeight(30),
@@ -202,16 +206,16 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                       }
                     }
                   });
-                  setState(() {
-                    for (int i = 0; i < attrList.length; i++) {
-                      var attrList2 = attrList[i].attrList;
-                      for (int j = 0; j < attrList2.length; j++) {
-                        if (attrList2[j].isSelect &&
-                            !_localAttrList.contains(attrList2[j].cate)) {
-                          _localAttrList.add(attrList2[j].cate);
-                        }
+                  for (int i = 0; i < attrList.length; i++) {
+                    var attrList2 = attrList[i].attrList;
+                    for (int j = 0; j < attrList2.length; j++) {
+                      if (attrList2[j].isSelect &&
+                          !_localAttrList.contains(attrList2[j].cate)) {
+                        _localAttrList.add(attrList2[j].cate);
                       }
                     }
+                  }
+                  setState(() {
                     _selectSpecifications = _localAttrList.join(",");
                   });
                 },
