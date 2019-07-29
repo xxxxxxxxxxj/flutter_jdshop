@@ -229,7 +229,7 @@ class _SerchPageState extends State<SerchPage> {
   }
 
   _showAlertDialog(value) async {
-    var result = await showDialog(
+    await showDialog(
         barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
         context: context,
         builder: (context) {

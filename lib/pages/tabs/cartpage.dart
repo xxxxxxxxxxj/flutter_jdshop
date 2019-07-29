@@ -51,150 +51,176 @@ class _CartPageState extends State<CartPage>
                       });
                     });
                   },
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: ScreenAdapter.setWidth(15),
-                        right: ScreenAdapter.setWidth(15),
-                        top: ScreenAdapter.setHeight(15),
-                        bottom: ScreenAdapter.setHeight(15)),
-                    width: ScreenAdapter.setWidth(750),
-                    height: ScreenAdapter.setHeight(210),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Checkbox(
-                            activeColor: Colors.pink,
-                            value: productData.isSelect,
-                            onChanged: (value) {}),
-                        Container(
-                          margin: EdgeInsets.only(
-                              right: ScreenAdapter.setWidth(20)),
-                          width: ScreenAdapter.setWidth(180),
-                          height: ScreenAdapter.setHeight(180),
-                          child: NetImage(_productList[index].pic),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  productData.title,
-                                  style: TextStyle(
-                                      fontSize: ScreenAdapter.setSp(28),
-                                      color: Colors.black54),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Stack(
+                  child: Dismissible(
+                      key: new Key(""),
+                      onDismissed: (direction) {
+                        //_showAlertDialog(index);
+                        _productList.removeAt(index);
+                        Scaffold.of(context).showSnackBar(new SnackBar(
+                            duration: Duration(milliseconds: 1000),
+                            backgroundColor: Colors.red,
+                            content: new Text("删除成功")));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: ScreenAdapter.setWidth(15),
+                            right: ScreenAdapter.setWidth(15),
+                            top: ScreenAdapter.setHeight(15),
+                            bottom: ScreenAdapter.setHeight(15)),
+                        width: ScreenAdapter.setWidth(750),
+                        height: ScreenAdapter.setHeight(210),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Checkbox(
+                                activeColor: Colors.pink,
+                                value: productData.isSelect,
+                                onChanged: (value) {}),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: ScreenAdapter.setWidth(20)),
+                              width: ScreenAdapter.setWidth(180),
+                              height: ScreenAdapter.setHeight(180),
+                              child: NetImage(_productList[index].pic),
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "¥" + productData.price,
-                                        style: TextStyle(
-                                            fontSize: ScreenAdapter.setSp(26),
-                                            color: Colors.red),
-                                      ),
+                                    Text(
+                                      productData.title,
+                                      style: TextStyle(
+                                          fontSize: ScreenAdapter.setSp(28),
+                                          color: Colors.black54),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                        width: ScreenAdapter.setWidth(164),
-                                        height: ScreenAdapter.setHeight(45),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: Colors.black26,
-                                                width:
-                                                    ScreenAdapter.setWidth(1))),
-                                        child: Row(
-                                          children: <Widget>[
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  productData.num--;
-                                                });
-                                              },
-                                              child: Container(
-                                                width:
-                                                    ScreenAdapter.setWidth(45),
-                                                height:
-                                                    ScreenAdapter.setHeight(45),
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border(
-                                                        right: BorderSide(
-                                                            color:
-                                                                Colors.black26,
-                                                            width: ScreenAdapter
-                                                                .setWidth(1)))),
-                                                child: Text(
-                                                  "-",
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          ScreenAdapter.setSp(
-                                                              20),
-                                                      color: Colors.black54),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: ScreenAdapter.setWidth(70),
-                                              height:
-                                                  ScreenAdapter.setHeight(45),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Colors.black26,
-                                                          width: ScreenAdapter
-                                                              .setWidth(1)))),
-                                              child: Text(
-                                                "${productData.num}",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        ScreenAdapter.setSp(24),
-                                                    color: Colors.black54),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  productData.num++;
-                                                });
-                                              },
-                                              child: Container(
-                                                width:
-                                                    ScreenAdapter.setWidth(45),
-                                                height:
-                                                    ScreenAdapter.setHeight(45),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  "+",
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          ScreenAdapter.setSp(
-                                                              20),
-                                                      color: Colors.black54),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                    Stack(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "¥" + productData.price,
+                                            style: TextStyle(
+                                                fontSize:
+                                                    ScreenAdapter.setSp(26),
+                                                color: Colors.red),
+                                          ),
                                         ),
-                                      ),
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Container(
+                                            width: ScreenAdapter.setWidth(164),
+                                            height: ScreenAdapter.setHeight(45),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.black26,
+                                                    width:
+                                                        ScreenAdapter.setWidth(
+                                                            1))),
+                                            child: Row(
+                                              children: <Widget>[
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      productData.num--;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        ScreenAdapter.setWidth(
+                                                            45),
+                                                    height:
+                                                        ScreenAdapter.setHeight(
+                                                            45),
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border(
+                                                            right: BorderSide(
+                                                                color: Colors
+                                                                    .black26,
+                                                                width: ScreenAdapter
+                                                                    .setWidth(
+                                                                        1)))),
+                                                    child: Text(
+                                                      "-",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              ScreenAdapter
+                                                                  .setSp(20),
+                                                          color:
+                                                              Colors.black54),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: ScreenAdapter.setWidth(
+                                                      70),
+                                                  height:
+                                                      ScreenAdapter.setHeight(
+                                                          45),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border(
+                                                          right: BorderSide(
+                                                              color: Colors
+                                                                  .black26,
+                                                              width:
+                                                                  ScreenAdapter
+                                                                      .setWidth(
+                                                                          1)))),
+                                                  child: Text(
+                                                    "${productData.num}",
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            ScreenAdapter.setSp(
+                                                                24),
+                                                        color: Colors.black54),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      productData.num++;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        ScreenAdapter.setWidth(
+                                                            45),
+                                                    height:
+                                                        ScreenAdapter.setHeight(
+                                                            45),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "+",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              ScreenAdapter
+                                                                  .setSp(20),
+                                                          color:
+                                                              Colors.black54),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
+                                )),
+                          ],
+                        ),
+                      )),
                 );
               },
               separatorBuilder: (context, index) {
@@ -278,5 +304,37 @@ class _CartPageState extends State<CartPage>
             )),
       ],
     );
+  }
+
+  _showAlertDialog(int index) async {
+    await showDialog(
+        barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("提示信息!"),
+            content: Text("您确定要删除吗?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("取消"),
+                onPressed: () {
+                  print("取消");
+                  Navigator.pop(context, 'Cancle');
+                },
+              ),
+              FlatButton(
+                child: Text("确定"),
+                onPressed: () async {
+                  setState(() {
+                    _productList.removeAt(index);
+                  });
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                      backgroundColor: Colors.red, content: new Text("删除成功")));
+                  Navigator.pop(context, "Ok");
+                },
+              )
+            ],
+          );
+        });
   }
 }
