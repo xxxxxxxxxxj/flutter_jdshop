@@ -1,4 +1,4 @@
-class ProductBean{
+class ProductBean {
   List<ProductData> result;
 
   ProductBean({this.result});
@@ -29,15 +29,19 @@ class ProductData {
   String oldPrice;
   String pic;
   String sPic;
+  int num;
+  bool isSelect;
+
+  ProductData.name(this.title, this.price, this.pic, this.num, this.isSelect);
 
   ProductData(
       {this.sId,
-        this.title,
-        this.cid,
-        this.price,
-        this.oldPrice,
-        this.pic,
-        this.sPic});
+      this.title,
+      this.cid,
+      this.price,
+      this.oldPrice,
+      this.pic,
+      this.sPic});
 
   ProductData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

@@ -21,12 +21,7 @@ class _GoodsDetailSecondState extends State<GoodsDetailSecond>
 
   @override
   Widget build(BuildContext context) {
-    return /*Container(
-      child: Column(
-        children: <Widget>[
-          _progressBar(),
-          */
-        InAppWebView(
+    return InAppWebView(
       initialUrl: ApiConfig.GOODS_DETAIL_WEBVIEW + "?id=" + widget._id,
       onProgressChanged: (InAppWebViewController controller, int progress) {
         LogUtil.e(progress);
@@ -39,11 +34,7 @@ class _GoodsDetailSecondState extends State<GoodsDetailSecond>
           this._progress = progress;
         });
       },
-    ) /*
-        ],
-      ),
-    )*/
-        ;
+    );
   }
 
   Widget _progressBar() {
