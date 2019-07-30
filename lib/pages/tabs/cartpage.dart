@@ -23,7 +23,8 @@ class _CartPageState extends State<CartPage>
   void initState() {
     super.initState();
     for (int i = 0; i < 10; i++) {
-      _productList.add(new ProductData.name("${i}",
+      _productList.add(new ProductData.name(
+          "${i}",
           "380",
           "http://192.168.0.252/static/avatar/1440747789538_1235.png",
           100,
@@ -53,10 +54,10 @@ class _CartPageState extends State<CartPage>
                   child: Dismissible(
                       key: new Key("${index}"),
                       onDismissed: (direction) {
-                        setState(() {
-                          _productList.removeAt(index);
-                        });
                         if (direction == DismissDirection.endToStart) {
+                          setState(() {
+                            _productList.removeAt(index);
+                          });
                           //删除
                           Scaffold.of(context).showSnackBar(new SnackBar(
                               duration: Duration(milliseconds: 500),
@@ -71,8 +72,32 @@ class _CartPageState extends State<CartPage>
                         }
                       },
                       confirmDismiss: (direction) async {
-                        _showAlertDialog(direction);
+                        return _showAlertDialog(context, direction);
                       },
+                      background: Container(
+                        width: ScreenAdapter.setWidth(750),
+                        height: ScreenAdapter.setHeight(210),
+                        color: Colors.green,
+                        // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.bookmark,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      secondaryBackground: Container(
+                        width: ScreenAdapter.setWidth(750),
+                        height: ScreenAdapter.setHeight(210),
+                        color: Colors.red,
+                        // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                        child: ListTile(
+                          trailing: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       child: Container(
                         padding: EdgeInsets.only(
                             left: ScreenAdapter.setWidth(15),
@@ -82,8 +107,6 @@ class _CartPageState extends State<CartPage>
                         width: ScreenAdapter.setWidth(750),
                         height: ScreenAdapter.setHeight(210),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Checkbox(
                                 activeColor: Colors.pink,
@@ -318,7 +341,8 @@ class _CartPageState extends State<CartPage>
     );
   }
 
-  _showAlertDialog(DismissDirection direction) async {
+  Future<bool> _showAlertDialog(
+      BuildContext context, DismissDirection direction) async {
     String _confirmContent = "";
     if (direction == DismissDirection.endToStart) {
       //删除
@@ -327,7 +351,7 @@ class _CartPageState extends State<CartPage>
       //收藏
       _confirmContent = "您确定要收藏吗?";
     }
-    await showDialog(
+    return await showDialog(
         barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
         context: context,
         builder: (context) {
@@ -338,13 +362,13 @@ class _CartPageState extends State<CartPage>
               FlatButton(
                 child: Text("取消"),
                 onPressed: () async {
-                  Navigator.pop(context, 'Cancle');
+                  Navigator.of(context).pop(false);
                 },
               ),
               FlatButton(
                 child: Text("确定"),
                 onPressed: () async {
-                  Navigator.pop(context, "Ok");
+                  Navigator.of(context).pop(true);
                 },
               )
             ],
