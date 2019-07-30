@@ -54,22 +54,14 @@ class _CartPageState extends State<CartPage>
                   child: Dismissible(
                       key: new Key("${index}"),
                       onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          setState(() {
-                            _productList.removeAt(index);
-                          });
-                          //删除
-                          Scaffold.of(context).showSnackBar(new SnackBar(
-                              duration: Duration(milliseconds: 500),
-                              backgroundColor: Colors.red,
-                              content: new Text("删除成功")));
-                        } else if (direction == DismissDirection.startToEnd) {
-                          //收藏
-                          Scaffold.of(context).showSnackBar(new SnackBar(
-                              duration: Duration(milliseconds: 500),
-                              backgroundColor: Colors.green,
-                              content: new Text("收藏成功")));
-                        }
+                        setState(() {
+                          _productList.removeAt(index);
+                        });
+                        //删除
+                        Scaffold.of(context).showSnackBar(new SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: Colors.red,
+                            content: new Text("删除成功")));
                       },
                       confirmDismiss: (direction) async {
                         return _showAlertDialog(context, direction);
@@ -368,7 +360,18 @@ class _CartPageState extends State<CartPage>
               FlatButton(
                 child: Text("确定"),
                 onPressed: () async {
-                  Navigator.of(context).pop(true);
+                  if (direction == DismissDirection.endToStart) {
+                    //删除
+                    Scaffold.of(context).showSnackBar(new SnackBar(
+                        duration: Duration(milliseconds: 500),
+                        backgroundColor: Colors.green,
+                        content: new Text("收藏成功")));
+                    Navigator.of(context).pop(true);
+                  } else if (direction == DismissDirection.startToEnd) {
+                    //收藏
+                    _confirmContent = "您确定要收藏吗?";
+                    Navigator.of(context).pop(false);
+                  }
                 },
               )
             ],
