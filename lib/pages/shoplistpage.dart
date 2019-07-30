@@ -188,7 +188,7 @@ class _ShopListPageState extends State<ShopListPage>
                   right: ScreenAdapter.setWidth(40)),
               alignment: Alignment.center,
               child: Text(
-                IntlUtil.getString(context, Ids.titleHome),
+                IntlUtil.getString(context, Ids.serch),
                 style: TextStyle(fontSize: ScreenAdapter.setSp(26)),
               ),
             ),

@@ -23,8 +23,7 @@ class _CartPageState extends State<CartPage>
   void initState() {
     super.initState();
     for (int i = 0; i < 10; i++) {
-      _productList.add(new ProductData.name(
-          "阿斯顿 v 山东 v 浓缩的女哦收到女说；的 v 浓缩的女哦收到女哦收到 v受到恐怖 v 开始打包 v 开始打包 v",
+      _productList.add(new ProductData.name("${i}",
           "380",
           "http://192.168.0.252/static/avatar/1440747789538_1235.png",
           100,
@@ -52,14 +51,27 @@ class _CartPageState extends State<CartPage>
                     });
                   },
                   child: Dismissible(
-                      key: new Key(""),
+                      key: new Key("${index}"),
                       onDismissed: (direction) {
-                        //_showAlertDialog(index);
-                        _productList.removeAt(index);
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                            duration: Duration(milliseconds: 1000),
-                            backgroundColor: Colors.red,
-                            content: new Text("删除成功")));
+                        setState(() {
+                          _productList.removeAt(index);
+                        });
+                        if (direction == DismissDirection.endToStart) {
+                          //删除
+                          Scaffold.of(context).showSnackBar(new SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              backgroundColor: Colors.red,
+                              content: new Text("删除成功")));
+                        } else if (direction == DismissDirection.startToEnd) {
+                          //收藏
+                          Scaffold.of(context).showSnackBar(new SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              backgroundColor: Colors.green,
+                              content: new Text("收藏成功")));
+                        }
+                      },
+                      confirmDismiss: (direction) async {
+                        _showAlertDialog(direction);
                       },
                       child: Container(
                         padding: EdgeInsets.only(
@@ -277,8 +289,8 @@ class _CartPageState extends State<CartPage>
                         });
                       },
                       child: Container(
-                        alignment: Alignment.center,
                         height: ScreenAdapter.setHeight(100),
+                        width: ScreenAdapter.setWidth(200),
                         margin: EdgeInsets.only(
                             left: ScreenAdapter.setWidth(15),
                             right: ScreenAdapter.setWidth(15)),
@@ -306,30 +318,32 @@ class _CartPageState extends State<CartPage>
     );
   }
 
-  _showAlertDialog(int index) async {
+  _showAlertDialog(DismissDirection direction) async {
+    String _confirmContent = "";
+    if (direction == DismissDirection.endToStart) {
+      //删除
+      _confirmContent = "您确定要删除吗?";
+    } else if (direction == DismissDirection.startToEnd) {
+      //收藏
+      _confirmContent = "您确定要收藏吗?";
+    }
     await showDialog(
         barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text("提示信息!"),
-            content: Text("您确定要删除吗?"),
+            content: Text(_confirmContent),
             actions: <Widget>[
               FlatButton(
                 child: Text("取消"),
-                onPressed: () {
-                  print("取消");
+                onPressed: () async {
                   Navigator.pop(context, 'Cancle');
                 },
               ),
               FlatButton(
                 child: Text("确定"),
                 onPressed: () async {
-                  setState(() {
-                    _productList.removeAt(index);
-                  });
-                  Scaffold.of(context).showSnackBar(new SnackBar(
-                      backgroundColor: Colors.red, content: new Text("删除成功")));
                   Navigator.pop(context, "Ok");
                 },
               )
