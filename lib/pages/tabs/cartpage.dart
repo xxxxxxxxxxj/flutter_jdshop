@@ -362,14 +362,13 @@ class _CartPageState extends State<CartPage>
                 onPressed: () async {
                   if (direction == DismissDirection.endToStart) {
                     //删除
+                    Navigator.of(context).pop(true);
+                  } else if (direction == DismissDirection.startToEnd) {
+                    //收藏
                     Scaffold.of(context).showSnackBar(new SnackBar(
                         duration: Duration(milliseconds: 500),
                         backgroundColor: Colors.green,
                         content: new Text("收藏成功")));
-                    Navigator.of(context).pop(true);
-                  } else if (direction == DismissDirection.startToEnd) {
-                    //收藏
-                    _confirmContent = "您确定要收藏吗?";
                     Navigator.of(context).pop(false);
                   }
                 },
