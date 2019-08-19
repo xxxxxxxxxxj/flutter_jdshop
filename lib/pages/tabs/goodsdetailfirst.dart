@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
+import 'package:flutter_jdshop/event/buyorcartevent.dart';
+import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/utils.dart';
@@ -29,12 +31,23 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
 
   @override
   bool get wantKeepAlive => true;
+  var actionEventBus;
 
   @override
   void initState() {
     super.initState();
     _goodsDetailData = widget._goodsDetailData;
     _bannerList.add(new BannerData.name(_goodsDetailData.pic));
+    actionEventBus = eventBus.on<BuyOrCartEvent>().listen((event) {
+      LogUtil.e(event.toString());
+      _showBottomDialog();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    actionEventBus.cancel();
   }
 
   @override
@@ -120,7 +133,9 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
         ),
         InkWell(
           onTap: () {
-            _showBottomDialog();
+            if (ObjectUtil.isNotEmpty(_goodsDetailData.attr)) {
+              _showBottomDialog();
+            }
           },
           child: Container(
               height: ScreenAdapter.setHeight(100),

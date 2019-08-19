@@ -3,6 +3,7 @@ import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/event/buyorcartevent.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailfirst.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailsecond.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailthird.dart';
@@ -172,7 +173,12 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                   color: Color.fromRGBO(253, 1, 0, 0.9),
                                   text: "加入购物车",
                                   cb: () {
-                                    print('加入购物车');
+                                    if (ObjectUtil.isNotEmpty(
+                                        _goodsDetailData.attr)) {
+                                      eventBus.fire(BuyOrCartEvent(1));
+                                    } else {
+                                      print('加入购物车');
+                                    }
                                   },
                                 ),
                               ),
@@ -186,7 +192,12 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                     color: Color.fromRGBO(255, 165, 0, 0.9),
                                     text: "立即购买",
                                     cb: () {
-                                      print('立即购买');
+                                      if (ObjectUtil.isNotEmpty(
+                                          _goodsDetailData.attr)) {
+                                        eventBus.fire(BuyOrCartEvent(2));
+                                      } else {
+                                        print('立即购买');
+                                      }
                                     },
                                   )),
                             )
