@@ -33,6 +33,7 @@ class GoodsDetailData {
   List<Attr> attr;
   String subTitle;
   Object salecount;
+  int num = 1;
 
   GoodsDetailData(
       {this.sId,
@@ -120,6 +121,11 @@ class Attr {
 class AttrData {
   String cate;
   bool isSelect;
+
+  @override
+  String toString() {
+    return 'AttrData{cate: $cate, isSelect: $isSelect}';
+  }
 
   AttrData(this.cate, this.isSelect);
 }

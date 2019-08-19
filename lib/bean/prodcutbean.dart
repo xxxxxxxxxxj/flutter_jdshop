@@ -29,6 +29,7 @@ class ProductData {
   String oldPrice;
   String pic;
   String sPic;
+  String attr;
   int num;
   bool isSelect;
 

@@ -8,6 +8,7 @@ import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/goodbutton.dart';
+import 'package:flutter_jdshop/view/goodsnum_widget.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 
 class GoodsDetailFirst extends StatefulWidget {
@@ -193,63 +194,67 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
     );
   }
 
-  Widget _getAttrWidget(List<Attr> attrList, int index, setBottomState) {
-    Attr attr = attrList[index];
-    return Wrap(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: ScreenAdapter.setHeight(40)),
-          child: Text(
-            Utils.getStr(attr.cate),
-            style: TextStyle(
-                fontSize: ScreenAdapter.setSp(26), color: Colors.black),
+  List<Widget> _getAttrWidget(List<Attr> attrList, setBottomState) {
+    List<Widget> widgetList = List<Widget>();
+    attrList.forEach((attr) {
+      widgetList.add(Wrap(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: ScreenAdapter.setHeight(40)),
+            child: Text(
+              Utils.getStr(attr.cate),
+              style: TextStyle(
+                  fontSize: ScreenAdapter.setSp(26), color: Colors.black),
+            ),
           ),
-        ),
-        Wrap(
-          children: List.generate(attr.attrList.length, (index1) {
-            List<AttrData> attrDataList = attr.attrList;
-            AttrData attrData = attrDataList[index1];
-            return Container(
-              margin: EdgeInsets.only(left: ScreenAdapter.setWidth(15)),
-              child: InkWell(
-                onTap: () {
-                  setBottomState(() {
-                    for (int i = 0; i < attrDataList.length; i++) {
-                      attrDataList[i].isSelect = false;
-                      if (i == index1) {
-                        attrDataList[i].isSelect = true;
+          Wrap(
+            children: List.generate(attr.attrList.length, (index1) {
+              List<AttrData> attrDataList = attr.attrList;
+              AttrData attrData = attrDataList[index1];
+              return Container(
+                margin: EdgeInsets.only(left: ScreenAdapter.setWidth(15)),
+                child: InkWell(
+                  onTap: () {
+                    _localAttrList.clear();
+                    setBottomState(() {
+                      for (int i = 0; i < attrDataList.length; i++) {
+                        attrDataList[i].isSelect = false;
+                        if (i == index1) {
+                          attrDataList[i].isSelect = true;
+                        }
+                      }
+                    });
+                    for (int i = 0; i < attrList.length; i++) {
+                      var attrList2 = attrList[i].attrList;
+                      for (int j = 0; j < attrList2.length; j++) {
+                        if (attrList2[j].isSelect) {
+                          _localAttrList.add(attrList2[j].cate);
+                        }
                       }
                     }
-                  });
-                  for (int i = 0; i < attrList.length; i++) {
-                    var attrList2 = attrList[i].attrList;
-                    for (int j = 0; j < attrList2.length; j++) {
-                      if (attrList2[j].isSelect &&
-                          !_localAttrList.contains(attrList2[j].cate)) {
-                        _localAttrList.add(attrList2[j].cate);
-                      }
-                    }
-                  }
-                  setState(() {
-                    _selectSpecifications = _localAttrList.join(",");
-                  });
-                },
-                child: Chip(
-                  backgroundColor:
-                      attrData.isSelect ? Colors.red : Colors.black12,
-                  label: Text(
-                    Utils.getStr(attrData.cate),
-                    style: TextStyle(
-                        color: attrData.isSelect ? Colors.white : Colors.black,
-                        fontSize: ScreenAdapter.setSp(24)),
+                    setState(() {
+                      _selectSpecifications = _localAttrList.join(",");
+                    });
+                  },
+                  child: Chip(
+                    backgroundColor:
+                        attrData.isSelect ? Colors.red : Colors.black12,
+                    label: Text(
+                      Utils.getStr(attrData.cate),
+                      style: TextStyle(
+                          color:
+                              attrData.isSelect ? Colors.white : Colors.black,
+                          fontSize: ScreenAdapter.setSp(24)),
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
-        )
-      ],
-    );
+              );
+            }),
+          )
+        ],
+      ));
+    });
+    return widgetList;
   }
 
   void _showBottomDialog() {
@@ -270,12 +275,39 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                         left: ScreenAdapter.setWidth(15),
                         right: ScreenAdapter.setWidth(15),
                         top: ScreenAdapter.setHeight(15)),
-                    child: ListView.builder(
-                        itemCount: _goodsDetailData.attr.length,
-                        itemBuilder: (context, index) {
-                          return _getAttrWidget(
-                              _goodsDetailData.attr, index, setBottomState);
-                        }),
+                    child: ListView(
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: _getAttrWidget(
+                              _goodsDetailData.attr, setBottomState),
+                        ),
+                        Divider(
+                          height: ScreenAdapter.setHeight(1),
+                          color: Colors.black26,
+                        ),
+                        SizedBox(
+                          height: ScreenAdapter.setWidth(15),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              Utils.getStr("数量"),
+                              style: TextStyle(
+                                  fontSize: ScreenAdapter.setSp(26),
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              width: ScreenAdapter.setWidth(15),
+                            ),
+                            GoodsNumWidget(_goodsDetailData.num)
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   Positioned(
                       bottom: 0,

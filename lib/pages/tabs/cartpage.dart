@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
+import 'package:flutter_jdshop/view/goodsnum_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 
 class CartPage extends StatefulWidget {
@@ -139,107 +140,8 @@ class _CartPageState extends State<CartPage>
                                         ),
                                         Align(
                                           alignment: Alignment.centerRight,
-                                          child: Container(
-                                            width: ScreenAdapter.setWidth(164),
-                                            height: ScreenAdapter.setHeight(45),
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.black26,
-                                                    width:
-                                                        ScreenAdapter.setWidth(
-                                                            1))),
-                                            child: Row(
-                                              children: <Widget>[
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      productData.num--;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    width:
-                                                        ScreenAdapter.setWidth(
-                                                            45),
-                                                    height:
-                                                        ScreenAdapter.setHeight(
-                                                            45),
-                                                    alignment: Alignment.center,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        border: Border(
-                                                            right: BorderSide(
-                                                                color: Colors
-                                                                    .black26,
-                                                                width: ScreenAdapter
-                                                                    .setWidth(
-                                                                        1)))),
-                                                    child: Text(
-                                                      "-",
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              ScreenAdapter
-                                                                  .setSp(20),
-                                                          color:
-                                                              Colors.black54),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: ScreenAdapter.setWidth(
-                                                      70),
-                                                  height:
-                                                      ScreenAdapter.setHeight(
-                                                          45),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Colors
-                                                                  .black26,
-                                                              width:
-                                                                  ScreenAdapter
-                                                                      .setWidth(
-                                                                          1)))),
-                                                  child: Text(
-                                                    "${productData.num}",
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            ScreenAdapter.setSp(
-                                                                24),
-                                                        color: Colors.black54),
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      productData.num++;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    width:
-                                                        ScreenAdapter.setWidth(
-                                                            45),
-                                                    height:
-                                                        ScreenAdapter.setHeight(
-                                                            45),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "+",
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              ScreenAdapter
-                                                                  .setSp(20),
-                                                          color:
-                                                              Colors.black54),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                          child:
+                                              GoodsNumWidget(productData.num),
                                         )
                                       ],
                                     )
