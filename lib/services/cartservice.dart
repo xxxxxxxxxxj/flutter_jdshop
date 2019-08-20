@@ -27,6 +27,38 @@ class CartService {
     return isAdd;
   }
 
+  //修改购物车数量
+  static updateCartNum(ProductData productData, int num) async {
+    List<ProductData> cartList = new List<ProductData>();
+    List<ProductData> list = await SpUtil.getObjList(
+        SPKey.key_cartlist, (v) => ProductData.fromJson(v));
+    cartList.addAll(list);
+    cartList[getIndex(cartList, productData.sId)].num = num;
+    await SpUtil.putObjectList(SPKey.key_cartlist, cartList);
+  }
+
+  //修改购物车选中状态
+  static updateCartState(ProductData productData, bool isSelect) async {
+    List<ProductData> cartList = new List<ProductData>();
+    List<ProductData> list = await SpUtil.getObjList(
+        SPKey.key_cartlist, (v) => ProductData.fromJson(v));
+    cartList.addAll(list);
+    cartList[getIndex(cartList, productData.sId)].isSelect = isSelect;
+    await SpUtil.putObjectList(SPKey.key_cartlist, cartList);
+  }
+
+  //修改购物车选中状态
+  static updateCartStateAll(bool isSelect) async {
+    List<ProductData> cartList = new List<ProductData>();
+    List<ProductData> list = await SpUtil.getObjList(
+        SPKey.key_cartlist, (v) => ProductData.fromJson(v));
+    cartList.addAll(list);
+    for (int i = 0; i < cartList.length; i++) {
+      cartList[i].isSelect = isSelect;
+    }
+    await SpUtil.putObjectList(SPKey.key_cartlist, cartList);
+  }
+
   //删除一件商品
   static removeCart(ProductData productData) async {
     try {

@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
-import 'package:flutter_jdshop/event/buyorcartevent.dart';
+import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
@@ -31,10 +33,11 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
   String _freight = "";
   String _selectSpecifications = "";
   List<String> _localAttrList = new List<String>();
+  StreamSubscription<CartNumEvent> actionEventBus1;
+  StreamSubscription<BuyOrCartEvent> actionEventBus;
 
   @override
   bool get wantKeepAlive => true;
-  var actionEventBus;
 
   @override
   void initState() {
@@ -45,12 +48,19 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
       LogUtil.e(event.toString());
       _showBottomDialog();
     });
+    actionEventBus1 = eventBus.on<CartNumEvent>().listen((event) {
+      LogUtil.e(event.toString());
+      if (event.flag == 1) {
+        _goodsDetailData.num = event.num;
+      }
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
     actionEventBus.cancel();
+    actionEventBus1.cancel();
   }
 
   @override
@@ -305,7 +315,7 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                             SizedBox(
                               width: ScreenAdapter.setWidth(15),
                             ),
-                            GoodsNumWidget(_goodsDetailData.num)
+                            GoodsNumWidget(1, _goodsDetailData.num, 0)
                           ],
                         )
                       ],

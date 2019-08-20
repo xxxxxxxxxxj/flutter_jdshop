@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
+import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
@@ -20,6 +23,7 @@ class _CartPageState extends State<CartPage>
   String _submitTxt = "结算";
   List<ProductData> _productList = new List<ProductData>();
   bool _allSelect = false;
+  StreamSubscription<CartNumEvent> actionEventBus;
 
   @override
   bool get wantKeepAlive => true;
@@ -28,6 +32,19 @@ class _CartPageState extends State<CartPage>
   void initState() {
     super.initState();
     _getCartData();
+    actionEventBus = eventBus.on<CartNumEvent>().listen((event) {
+      LogUtil.e(event.toString());
+      if (event.flag == 2) {
+        _productList[event.index].num = event.num;
+        CartService.updateCartNum(_productList[event.index], event.num);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    actionEventBus.cancel();
   }
 
   void _getCartData() async {
@@ -36,6 +53,9 @@ class _CartPageState extends State<CartPage>
     setState(() {
       this._productList.clear();
       this._productList.addAll(_cartList);
+      _allSelect = _productList.every((localProductData) {
+        return localProductData.isSelect;
+      });
     });
   }
 
@@ -59,6 +79,8 @@ class _CartPageState extends State<CartPage>
                               return localProductData.isSelect;
                             });
                           });
+                          CartService.updateCartState(
+                              productData, productData.isSelect);
                         },
                         child: Dismissible(
                             key: new Key("${index}"),
@@ -162,7 +184,7 @@ class _CartPageState extends State<CartPage>
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: GoodsNumWidget(
-                                                    productData.num),
+                                                    2, productData.num, index),
                                               )
                                             ],
                                           )
@@ -225,6 +247,7 @@ class _CartPageState extends State<CartPage>
                                   }
                                 }
                               });
+                              CartService.updateCartStateAll(_allSelect);
                             },
                             child: Container(
                               height: ScreenAdapter.setHeight(100),

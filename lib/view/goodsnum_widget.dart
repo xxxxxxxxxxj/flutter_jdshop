@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class GoodsNumWidget extends StatefulWidget {
-  var num;
+  int flag;
+  int num;
+  int index;
 
-  GoodsNumWidget(this.num);
+  GoodsNumWidget(this.flag, this.num, this.index);
 
   @override
   State<StatefulWidget> createState() {
@@ -33,6 +36,8 @@ class _GoodsNumWidgetState extends State<GoodsNumWidget> {
               } else {
                 setState(() {
                   widget.num--;
+                  eventBus.fire(
+                      CartNumEvent(widget.flag, widget.num, widget.index));
                 });
               }
             },
@@ -73,6 +78,8 @@ class _GoodsNumWidgetState extends State<GoodsNumWidget> {
             onTap: () {
               setState(() {
                 widget.num++;
+                eventBus
+                    .fire(CartNumEvent(widget.flag, widget.num, widget.index));
               });
             },
             child: Container(
