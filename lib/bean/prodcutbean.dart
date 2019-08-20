@@ -33,7 +33,12 @@ class ProductData {
   int num;
   bool isSelect;
 
-  ProductData.name(this.title, this.price, this.pic, this.num, this.isSelect);
+  @override
+  String toString() {
+    return 'ProductData{sId: $sId, title: $title, cid: $cid, price: $price, oldPrice: $oldPrice, pic: $pic, sPic: $sPic, attr: $attr, num: $num, isSelect: $isSelect}';
+  }
+
+  ProductData.name(this.sId,this.title, this.price, this.pic,this.attr, this.num, this.isSelect);
 
   ProductData(
       {this.sId,
@@ -52,6 +57,9 @@ class ProductData {
     oldPrice = json['old_price'];
     pic = json['pic'];
     sPic = json['s_pic'];
+    attr = json['attr'];
+    num = json['num'];
+    isSelect = json['isSelect'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +71,9 @@ class ProductData {
     data['old_price'] = this.oldPrice;
     data['pic'] = this.pic;
     data['s_pic'] = this.sPic;
+    data['attr'] = this.attr;
+    data['num'] = this.num;
+    data['isSelect'] = this.isSelect;
     return data;
   }
 }

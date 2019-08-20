@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
+import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/event/buyorcartevent.dart';
+import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
@@ -261,8 +263,8 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
     _localAttrList.clear();
     showModalBottomSheet(
         context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setBottomState) {
+        builder: (_) {
+          return StatefulBuilder(builder: (_, setBottomState) {
             return GestureDetector(
               onTap: () {
                 return false;
@@ -325,8 +327,34 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                                 child: GoodButton(
                                   color: Color.fromRGBO(253, 1, 0, 0.9),
                                   text: "加入购物车",
-                                  cb: () {
-                                    print('加入购物车');
+                                  cb: () async {
+                                    bool isAdd = await CartService.addCart(
+                                        ProductData.name(
+                                      _goodsDetailData.sId,
+                                      _goodsDetailData.title,
+                                      _goodsDetailData.price,
+                                      _goodsDetailData.pic,
+                                      _selectSpecifications,
+                                      _goodsDetailData.num,
+                                      false,
+                                    ));
+                                    if (isAdd) {
+                                      Navigator.of(context).pop();
+                                      Scaffold.of(context).showSnackBar(
+                                          new SnackBar(
+                                              duration:
+                                                  Duration(milliseconds: 1500),
+                                              backgroundColor: Colors.green,
+                                              content: new Text("添加成功")));
+                                    } else {
+                                      Scaffold.of(context).showSnackBar(
+                                          new SnackBar(
+                                              duration:
+                                                  Duration(milliseconds: 1500),
+                                              backgroundColor: Colors.red,
+                                              content:
+                                                  new Text("添加失败，您已添加过该商品")));
+                                    }
                                   },
                                 ),
                               ),

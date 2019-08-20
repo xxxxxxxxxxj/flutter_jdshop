@@ -6,19 +6,25 @@ import 'package:flutter_jdshop/util/sp_util.dart';
 
 class CartService {
   //添加商品到购物车
-  static addCart(ProductData productData) async {
+  static Future<bool> addCart(ProductData productData) async {
+    bool isAdd = false;
     List<ProductData> cartList = new List<ProductData>();
     List<ProductData> list = await SpUtil.getObjList(
         SPKey.key_cartlist, (v) => ProductData.fromJson(v));
     if (ObjectUtil.isNotEmpty(list)) {
       if (!isContains(list, productData.sId)) {
+        isAdd = true;
         cartList.add(productData);
+      } else {
+        isAdd = false;
       }
       cartList.addAll(list);
     } else {
+      isAdd = true;
       cartList.add(productData);
     }
     await SpUtil.putObjectList(SPKey.key_cartlist, cartList);
+    return isAdd;
   }
 
   //删除一件商品

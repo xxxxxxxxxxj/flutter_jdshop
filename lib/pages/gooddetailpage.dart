@@ -173,12 +173,7 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                   color: Color.fromRGBO(253, 1, 0, 0.9),
                                   text: "加入购物车",
                                   cb: () {
-                                    if (ObjectUtil.isNotEmpty(
-                                        _goodsDetailData.attr)) {
-                                      eventBus.fire(BuyOrCartEvent(1));
-                                    } else {
-                                      print('加入购物车');
-                                    }
+                                    eventBus.fire(BuyOrCartEvent(1));
                                   },
                                 ),
                               ),
@@ -192,12 +187,7 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                     color: Color.fromRGBO(255, 165, 0, 0.9),
                                     text: "立即购买",
                                     cb: () {
-                                      if (ObjectUtil.isNotEmpty(
-                                          _goodsDetailData.attr)) {
-                                        eventBus.fire(BuyOrCartEvent(2));
-                                      } else {
-                                        print('立即购买');
-                                      }
+                                      eventBus.fire(BuyOrCartEvent(2));
                                     },
                                   )),
                             )
