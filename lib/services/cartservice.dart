@@ -27,6 +27,11 @@ class CartService {
     return isAdd;
   }
 
+  //更新购物车
+  static updateCart(List<ProductData> cartList) async {
+    await SpUtil.putObjectList(SPKey.key_cartlist, cartList);
+  }
+
   //修改购物车数量
   static updateCartNum(ProductData productData, int num) async {
     List<ProductData> cartList = new List<ProductData>();

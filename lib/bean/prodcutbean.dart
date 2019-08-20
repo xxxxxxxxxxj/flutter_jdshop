@@ -35,7 +35,7 @@ class ProductData {
 
   @override
   String toString() {
-    return 'ProductData{sId: $sId, title: $title, cid: $cid, price: $price, oldPrice: $oldPrice, pic: $pic, sPic: $sPic, attr: $attr, num: $num, isSelect: $isSelect}';
+    return 'ProductData{isSelect: $isSelect}';
   }
 
   ProductData.name(this.sId,this.title, this.price, this.pic,this.attr, this.num, this.isSelect);

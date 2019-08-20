@@ -21,7 +21,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage>
     with AutomaticKeepAliveClientMixin {
   String _submitTxt = "结算";
-  List<ProductData> _productList = new List<ProductData>();
+  List<ProductData> _productList;
   bool _allSelect = false;
   StreamSubscription<CartNumEvent> actionEventBus;
 
@@ -48,14 +48,15 @@ class _CartPageState extends State<CartPage>
   }
 
   void _getCartData() async {
-    var _cartList = await CartService.getCart();
-    LogUtil.e("_cartList = ${_cartList}");
+    List<ProductData> _cartList = await CartService.getCart();
+    LogUtil.e("_cartList = ${_cartList.toString()}");
     setState(() {
-      this._productList.clear();
-      this._productList.addAll(_cartList);
+      this._productList = _cartList;
+      LogUtil.e("_productList = ${_productList.toString()}");
       _allSelect = _productList.every((localProductData) {
         return localProductData.isSelect;
       });
+      LogUtil.e("_allSelect = ${_allSelect}");
     });
   }
 
