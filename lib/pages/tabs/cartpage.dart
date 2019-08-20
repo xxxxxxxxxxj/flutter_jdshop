@@ -5,6 +5,7 @@ import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
+import 'package:flutter_jdshop/util/num_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/emptydata_widget.dart';
@@ -24,6 +25,7 @@ class _CartPageState extends State<CartPage>
   List<ProductData> _productList;
   bool _allSelect = false;
   StreamSubscription<CartNumEvent> actionEventBus;
+  double _totalPrice = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -37,6 +39,7 @@ class _CartPageState extends State<CartPage>
       if (event.flag == 2) {
         _productList[event.index].num = event.num;
         CartService.updateCartNum(_productList[event.index], event.num);
+        _getTotalPrice();
       }
     });
   }
@@ -57,6 +60,26 @@ class _CartPageState extends State<CartPage>
         return localProductData.isSelect;
       });
       LogUtil.e("_allSelect = ${_allSelect}");
+    });
+    _getTotalPrice();
+  }
+
+  void _getTotalPrice() {
+    double _tempTotalPrice = 0;
+    for (int i = 0; i < _productList.length; i++) {
+      if (_productList[i].isSelect) {
+        num _price = 0;
+        if (_productList[i].price is int || _productList[i].price is double) {
+          _price = _productList[i].price;
+        } else {
+          _price = double.parse(_productList[i].price);
+        }
+        _tempTotalPrice = NumUtil.add(
+            _tempTotalPrice, NumUtil.multiply(_price, _productList[i].num));
+      }
+    }
+    setState(() {
+      _totalPrice = _tempTotalPrice;
     });
   }
 
@@ -82,6 +105,7 @@ class _CartPageState extends State<CartPage>
                           });
                           CartService.updateCartState(
                               productData, productData.isSelect);
+                          _getTotalPrice();
                         },
                         child: Dismissible(
                             key: new Key("${index}"),
@@ -236,40 +260,60 @@ class _CartPageState extends State<CartPage>
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _allSelect = !_allSelect;
-                                for (int i = 0; i < _productList.length; i++) {
-                                  if (_allSelect) {
-                                    _productList[i].isSelect = true;
-                                  } else {
-                                    _productList[i].isSelect = false;
-                                  }
-                                }
-                              });
-                              CartService.updateCartStateAll(_allSelect);
-                            },
-                            child: Container(
-                              height: ScreenAdapter.setHeight(100),
-                              width: ScreenAdapter.setWidth(200),
-                              margin: EdgeInsets.only(
-                                  left: ScreenAdapter.setWidth(15),
-                                  right: ScreenAdapter.setWidth(15)),
-                              child: Row(
-                                children: <Widget>[
-                                  Checkbox(
-                                      activeColor: Colors.pink,
-                                      value: _allSelect,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "全选",
-                                    style: TextStyle(
-                                        fontSize: ScreenAdapter.setSp(28),
-                                        color: Colors.black38),
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenAdapter.setWidth(15),
+                                right: ScreenAdapter.setWidth(15)),
+                            child: Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _allSelect = !_allSelect;
+                                      for (int i = 0;
+                                          i < _productList.length;
+                                          i++) {
+                                        if (_allSelect) {
+                                          _productList[i].isSelect = true;
+                                        } else {
+                                          _productList[i].isSelect = false;
+                                        }
+                                      }
+                                    });
+                                    CartService.updateCartStateAll(_allSelect);
+                                    _getTotalPrice();
+                                  },
+                                  child: Container(
+                                    width: ScreenAdapter.setWidth(200),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Checkbox(
+                                            activeColor: Colors.pink,
+                                            value: _allSelect,
+                                            onChanged: (value) {}),
+                                        Text(
+                                          "全选",
+                                          style: TextStyle(
+                                              fontSize: ScreenAdapter.setSp(28),
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Text(
+                                  "合计：",
+                                  style: TextStyle(
+                                      fontSize: ScreenAdapter.setSp(28),
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "¥${_totalPrice}",
+                                  style: TextStyle(
+                                      fontSize: ScreenAdapter.setSp(26),
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                           ),
                         )
