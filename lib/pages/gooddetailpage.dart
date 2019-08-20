@@ -3,6 +3,7 @@ import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/event/buyorcartevent.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailfirst.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailsecond.dart';
@@ -143,7 +144,8 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                 //解决水波纹不显示的问题
                                 child: Ink(
                                     child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                              },
                               child: Container(
                                 margin: EdgeInsets.only(
                                     right: ScreenAdapter.setWidth(15),

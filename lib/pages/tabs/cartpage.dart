@@ -122,6 +122,8 @@ class _CartPageState extends State<CartPage>
                                   Expanded(
                                       flex: 1,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
@@ -130,8 +132,17 @@ class _CartPageState extends State<CartPage>
                                             style: TextStyle(
                                                 fontSize:
                                                     ScreenAdapter.setSp(28),
-                                                color: Colors.black54),
+                                                color: Colors.black),
                                             maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            productData.attr,
+                                            style: TextStyle(
+                                                fontSize:
+                                                    ScreenAdapter.setSp(26),
+                                                color: Colors.black),
+                                            maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Stack(

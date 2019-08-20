@@ -338,8 +338,8 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                                       _goodsDetailData.num,
                                       false,
                                     ));
+                                    Navigator.of(context).pop();
                                     if (isAdd) {
-                                      Navigator.of(context).pop();
                                       Scaffold.of(context).showSnackBar(
                                           new SnackBar(
                                               duration:
