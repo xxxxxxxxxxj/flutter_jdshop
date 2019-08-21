@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
@@ -86,8 +87,41 @@ class _CartPageState extends State<CartPage>
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return Material(
-      child: ObjectUtil.isEmpty(_productList)
+    return Scaffold(
+      appBar: AppBar(
+        leading:
+            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: () {}),
+        centerTitle: true,
+        title: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, PageName.route_serch);
+          },
+          child: Container(
+            height: ScreenAdapter.setHeight(70),
+            padding: EdgeInsets.only(left: ScreenAdapter.setWidth(20)),
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(233, 233, 233, 0.8),
+                borderRadius: BorderRadius.circular(30)),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.search,
+                  size: 15,
+                ),
+                Text(
+                  "笔记本",
+                  style: TextStyle(
+                      fontSize: ScreenAdapter.setSp(26), color: Colors.black45),
+                )
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.message), onPressed: () {})
+        ],
+      ),
+      body: ObjectUtil.isEmpty(_productList)
           ? EmptyDataWidget()
           : Stack(
               children: <Widget>[

@@ -77,37 +77,72 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return ListView(
-      children: <Widget>[
-        //头部banner
-        ObjectUtil.isNotEmpty(_bannerList)
-            ? BannerWidget(_bannerList, 2.0)
-            : LoadingWidget(),
-        //间隔30像素
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
+    return Scaffold(
+      appBar: AppBar(
+        leading:
+            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: () {}),
+        centerTitle: true,
+        title: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, PageName.route_serch);
+          },
+          child: Container(
+            height: ScreenAdapter.setHeight(70),
+            padding: EdgeInsets.only(left: ScreenAdapter.setWidth(20)),
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(233, 233, 233, 0.8),
+                borderRadius: BorderRadius.circular(30)),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.search,
+                  size: 15,
+                ),
+                Text(
+                  "笔记本",
+                  style: TextStyle(
+                      fontSize: ScreenAdapter.setSp(26), color: Colors.black45),
+                )
+              ],
+            ),
+          ),
         ),
-        //分类标题"猜你喜欢"
-        ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeLike)),
-        //间隔30像素
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
-        ),
-        //左右滑动的列表
-        _getLikeWidget(),
-        //间隔30像素
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
-        ),
-        //分类标题"热门推荐"
-        ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeHot)),
-        //间隔30像素
-        SizedBox(
-          height: ScreenAdapter.setHeight(30),
-        ),
-        //热门推荐网格列表
-        _getHotWidget(),
-      ],
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.message), onPressed: () {})
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          //头部banner
+          ObjectUtil.isNotEmpty(_bannerList)
+              ? BannerWidget(_bannerList, 2.0)
+              : LoadingWidget(),
+          //间隔30像素
+          SizedBox(
+            height: ScreenAdapter.setHeight(30),
+          ),
+          //分类标题"猜你喜欢"
+          ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeLike)),
+          //间隔30像素
+          SizedBox(
+            height: ScreenAdapter.setHeight(30),
+          ),
+          //左右滑动的列表
+          _getLikeWidget(),
+          //间隔30像素
+          SizedBox(
+            height: ScreenAdapter.setHeight(30),
+          ),
+          //分类标题"热门推荐"
+          ColumnTitleWidget(IntlUtil.getString(context, Ids.titleHomeHot)),
+          //间隔30像素
+          SizedBox(
+            height: ScreenAdapter.setHeight(30),
+          ),
+          //热门推荐网格列表
+          _getHotWidget(),
+        ],
+      ),
     );
   }
 
