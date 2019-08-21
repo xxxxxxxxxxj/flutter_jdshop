@@ -7,6 +7,7 @@ import 'package:flutter_jdshop/pages/openadpage.dart';
 import 'package:flutter_jdshop/pages/serchpage.dart';
 import 'package:flutter_jdshop/pages/shoplistpage.dart';
 import 'package:flutter_jdshop/pages/splashpage.dart';
+import 'package:flutter_jdshop/pages/tabs/cartpage.dart';
 import 'package:flutter_jdshop/pages/tabs/tabs.dart';
 import 'package:flutter_jdshop/pages/webviewpage.dart';
 
@@ -24,6 +25,7 @@ final routers = {
   PageName.route_serch: (context) => SerchPage(),
   PageName.route_gooddetail: (context, {Map arguments}) =>
       GoodDetailPage(arguments: arguments),
+  PageName.route_cart: (context) => CartPage(),
 }; //固定写法
 
 var onGenerateRoute = (RouteSettings settings) {

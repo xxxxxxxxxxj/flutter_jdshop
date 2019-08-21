@@ -3,6 +3,7 @@ import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailfirst.dart';
 import 'package:flutter_jdshop/pages/tabs/goodsdetailsecond.dart';
@@ -144,6 +145,8 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
                                 child: Ink(
                                     child: InkWell(
                               onTap: () {
+                                Navigator.pushNamed(
+                                    context, PageName.route_cart);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
