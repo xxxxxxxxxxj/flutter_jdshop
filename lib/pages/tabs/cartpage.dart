@@ -85,7 +85,7 @@ class _CartPageState extends State<CartPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _) {
     ScreenAdapter.init(context);
     return Scaffold(
       appBar: AppBar(
