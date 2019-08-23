@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/categorybean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
+import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -61,7 +63,7 @@ class _CategoryPageState extends State<CategoryPage>
     return Scaffold(
         appBar: AppBar(
           leading:
-              IconButton(icon: Icon(Icons.center_focus_weak), onPressed: () {}),
+              IconButton(icon: Icon(Icons.center_focus_weak), onPressed: scan),
           centerTitle: true,
           title: InkWell(
             onTap: () {
@@ -201,6 +203,15 @@ class _CategoryPageState extends State<CategoryPage>
       );
     } else {
       return LoadingWidget();
+    }
+  }
+
+  Future scan() async {
+    try {
+      String barcode = await scanner.scan();
+      LogUtil.e("barcode = ${barcode}");
+    } on Exception catch (e) {
+      LogUtil.e("错误 = ${e.toString()}");
     }
   }
 }

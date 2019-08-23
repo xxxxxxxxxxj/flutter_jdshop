@@ -12,6 +12,7 @@ import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/emptydata_widget.dart';
 import 'package:flutter_jdshop/view/goodsnum_widget.dart';
 import 'package:flutter_jdshop/view/netimage_widget.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class CartPage extends StatefulWidget {
   @override
@@ -90,7 +91,7 @@ class _CartPageState extends State<CartPage>
     return Scaffold(
       appBar: AppBar(
         leading:
-            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: () {}),
+            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: scan),
         centerTitle: true,
         title: InkWell(
           onTap: () {
@@ -412,5 +413,14 @@ class _CartPageState extends State<CartPage>
             ],
           );
         });
+  }
+
+  Future scan() async {
+    try {
+      String barcode = await scanner.scan();
+      LogUtil.e("barcode = ${barcode}");
+    } on Exception catch (e) {
+      LogUtil.e("错误 = ${e.toString()}");
+    }
   }
 }
