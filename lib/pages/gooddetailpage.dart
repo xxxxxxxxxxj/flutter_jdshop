@@ -122,11 +122,12 @@ class _GoodDetailPageState extends State<GoodDetailPage> {
         body: ObjectUtil.isNotEmpty(_goodsDetailData)
             ? Stack(
                 children: <Widget>[
-                  TabBarView(children: [
-                    GoodsDetailFirst(_goodsDetailData),
-                    GoodsDetailSecond(widget.arguments["id"]),
-                    GoodsDetailThird(),
-                  ]),
+                  TabBarView(physics: NeverScrollableScrollPhysics(), //禁止左右滑动
+                      children: [
+                        GoodsDetailFirst(_goodsDetailData),
+                        GoodsDetailSecond(widget.arguments["id"]),
+                        GoodsDetailThird(),
+                      ]),
                   Positioned(
                       bottom: 0,
                       child: Container(

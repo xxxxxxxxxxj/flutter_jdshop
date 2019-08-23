@@ -85,7 +85,7 @@ class _CartPageState extends State<CartPage>
   }
 
   @override
-  Widget build(BuildContext _) {
+  Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return Scaffold(
       appBar: AppBar(
@@ -123,244 +123,250 @@ class _CartPageState extends State<CartPage>
       ),
       body: ObjectUtil.isEmpty(_productList)
           ? EmptyDataWidget()
-          : Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: ScreenAdapter.setHeight(100)),
-                  child: ListView.separated(
-                      itemBuilder: (_, index) {
-                        ProductData productData = _productList[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              productData.isSelect = !productData.isSelect;
-                              _allSelect =
-                                  _productList.every((localProductData) {
-                                return localProductData.isSelect;
+          : new Builder(builder: (BuildContext context) {
+              return new Stack(
+                children: <Widget>[
+                  Container(
+                    margin:
+                        EdgeInsets.only(bottom: ScreenAdapter.setHeight(100)),
+                    child: ListView.separated(
+                        itemBuilder: (_, index) {
+                          ProductData productData = _productList[index];
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                productData.isSelect = !productData.isSelect;
+                                _allSelect =
+                                    _productList.every((localProductData) {
+                                  return localProductData.isSelect;
+                                });
                               });
-                            });
-                            CartService.updateCartState(
-                                productData, productData.isSelect);
-                            _getTotalPrice();
-                          },
-                          child: Dismissible(
-                              key: new Key("${index}"),
-                              onDismissed: (direction) async {
-                                await CartService.removeCart(productData);
-                                //删除
-                                Scaffold.of(context).showSnackBar(new SnackBar(
-                                    duration: Duration(milliseconds: 1500),
-                                    backgroundColor: Colors.red,
-                                    content: new Text("删除成功")));
-                                _getCartData();
-                              },
-                              confirmDismiss: (direction) async {
-                                return _showAlertDialog(direction);
-                              },
-                              background: Container(
-                                width: ScreenAdapter.setWidth(750),
-                                height: ScreenAdapter.setHeight(210),
-                                color: Colors.green,
-                                // 这里使用 ListTile 因为可以快速设置左右两端的Icon
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.bookmark,
-                                    color: Colors.white,
+                              CartService.updateCartState(
+                                  productData, productData.isSelect);
+                              _getTotalPrice();
+                            },
+                            child: Dismissible(
+                                key: new Key("${index}"),
+                                onDismissed: (direction) async {
+                                  await CartService.removeCart(productData);
+                                  //删除
+                                  Scaffold.of(context).showSnackBar(
+                                      new SnackBar(
+                                          duration:
+                                              Duration(milliseconds: 1500),
+                                          backgroundColor: Colors.red,
+                                          content: new Text("删除成功")));
+                                  _getCartData();
+                                },
+                                confirmDismiss: (direction) async {
+                                  return _showAlertDialog(direction);
+                                },
+                                background: Container(
+                                  width: ScreenAdapter.setWidth(750),
+                                  height: ScreenAdapter.setHeight(210),
+                                  color: Colors.green,
+                                  // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.bookmark,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              secondaryBackground: Container(
-                                width: ScreenAdapter.setWidth(750),
-                                height: ScreenAdapter.setHeight(210),
-                                color: Colors.red,
-                                // 这里使用 ListTile 因为可以快速设置左右两端的Icon
-                                child: ListTile(
-                                  trailing: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
+                                secondaryBackground: Container(
+                                  width: ScreenAdapter.setWidth(750),
+                                  height: ScreenAdapter.setHeight(210),
+                                  color: Colors.red,
+                                  // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                                  child: ListTile(
+                                    trailing: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      left: ScreenAdapter.setWidth(15),
+                                      right: ScreenAdapter.setWidth(15),
+                                      top: ScreenAdapter.setHeight(15),
+                                      bottom: ScreenAdapter.setHeight(15)),
+                                  width: ScreenAdapter.setWidth(750),
+                                  height: ScreenAdapter.setHeight(210),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Checkbox(
+                                          activeColor: Colors.pink,
+                                          value: productData.isSelect,
+                                          onChanged: (value) {}),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            right: ScreenAdapter.setWidth(20)),
+                                        width: ScreenAdapter.setWidth(180),
+                                        height: ScreenAdapter.setHeight(180),
+                                        child:
+                                            NetImage(_productList[index].pic),
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                productData.title,
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        ScreenAdapter.setSp(28),
+                                                    color: Colors.black),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Text(
+                                                productData.attr,
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        ScreenAdapter.setSp(26),
+                                                    color: Colors.black),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Stack(
+                                                children: <Widget>[
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      "¥${productData.price}",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              ScreenAdapter
+                                                                  .setSp(26),
+                                                          color: Colors.red),
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GoodsNumWidget(2,
+                                                        productData.num, index),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                )),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            height: ScreenAdapter.setHeight(1),
+                            color: Colors.black26,
+                          );
+                        },
+                        itemCount: _productList.length),
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.black12,
+                                    width: ScreenAdapter.setWidth(2)))),
+                        height: ScreenAdapter.setHeight(100),
+                        width: ScreenAdapter.setWidth(750),
+                        child: Stack(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    color: Colors.red,
+                                    height: ScreenAdapter.setHeight(100),
+                                    width: ScreenAdapter.setWidth(200),
+                                    child: Text(
+                                      _submitTxt,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: ScreenAdapter.setSp(26)),
+                                    ),
+                                  )),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
                               child: Container(
-                                padding: EdgeInsets.only(
+                                margin: EdgeInsets.only(
                                     left: ScreenAdapter.setWidth(15),
-                                    right: ScreenAdapter.setWidth(15),
-                                    top: ScreenAdapter.setHeight(15),
-                                    bottom: ScreenAdapter.setHeight(15)),
-                                width: ScreenAdapter.setWidth(750),
-                                height: ScreenAdapter.setHeight(210),
+                                    right: ScreenAdapter.setWidth(15)),
                                 child: Row(
                                   children: <Widget>[
-                                    Checkbox(
-                                        activeColor: Colors.pink,
-                                        value: productData.isSelect,
-                                        onChanged: (value) {}),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          right: ScreenAdapter.setWidth(20)),
-                                      width: ScreenAdapter.setWidth(180),
-                                      height: ScreenAdapter.setHeight(180),
-                                      child: NetImage(_productList[index].pic),
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _allSelect = !_allSelect;
+                                          for (int i = 0;
+                                              i < _productList.length;
+                                              i++) {
+                                            if (_allSelect) {
+                                              _productList[i].isSelect = true;
+                                            } else {
+                                              _productList[i].isSelect = false;
+                                            }
+                                          }
+                                        });
+                                        CartService.updateCartStateAll(
+                                            _allSelect);
+                                        _getTotalPrice();
+                                      },
+                                      child: Container(
+                                        width: ScreenAdapter.setWidth(200),
+                                        child: Row(
                                           children: <Widget>[
+                                            Checkbox(
+                                                activeColor: Colors.pink,
+                                                value: _allSelect,
+                                                onChanged: (value) {}),
                                             Text(
-                                              productData.title,
+                                              "全选",
                                               style: TextStyle(
                                                   fontSize:
                                                       ScreenAdapter.setSp(28),
                                                   color: Colors.black),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            Text(
-                                              productData.attr,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      ScreenAdapter.setSp(26),
-                                                  color: Colors.black),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Stack(
-                                              children: <Widget>[
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    "¥${productData.price}",
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            ScreenAdapter.setSp(
-                                                                26),
-                                                        color: Colors.red),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: GoodsNumWidget(2,
-                                                      productData.num, index),
-                                                )
-                                              ],
-                                            )
                                           ],
-                                        )),
-                                  ],
-                                ),
-                              )),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Divider(
-                          height: ScreenAdapter.setHeight(1),
-                          color: Colors.black26,
-                        );
-                      },
-                      itemCount: _productList.length),
-                ),
-                Positioned(
-                    bottom: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                              top: BorderSide(
-                                  color: Colors.black12,
-                                  width: ScreenAdapter.setWidth(2)))),
-                      height: ScreenAdapter.setHeight(100),
-                      width: ScreenAdapter.setWidth(750),
-                      child: Stack(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  color: Colors.red,
-                                  height: ScreenAdapter.setHeight(100),
-                                  width: ScreenAdapter.setWidth(200),
-                                  child: Text(
-                                    _submitTxt,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenAdapter.setSp(26)),
-                                  ),
-                                )),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: ScreenAdapter.setWidth(15),
-                                  right: ScreenAdapter.setWidth(15)),
-                              child: Row(
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        _allSelect = !_allSelect;
-                                        for (int i = 0;
-                                            i < _productList.length;
-                                            i++) {
-                                          if (_allSelect) {
-                                            _productList[i].isSelect = true;
-                                          } else {
-                                            _productList[i].isSelect = false;
-                                          }
-                                        }
-                                      });
-                                      CartService.updateCartStateAll(
-                                          _allSelect);
-                                      _getTotalPrice();
-                                    },
-                                    child: Container(
-                                      width: ScreenAdapter.setWidth(200),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Checkbox(
-                                              activeColor: Colors.pink,
-                                              value: _allSelect,
-                                              onChanged: (value) {}),
-                                          Text(
-                                            "全选",
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.setSp(28),
-                                                color: Colors.black),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    "合计：",
-                                    style: TextStyle(
-                                        fontSize: ScreenAdapter.setSp(28),
-                                        color: Colors.black),
-                                  ),
-                                  Text(
-                                    "¥${_totalPrice}",
-                                    style: TextStyle(
-                                        fontSize: ScreenAdapter.setSp(26),
-                                        color: Colors.red),
-                                  ),
-                                ],
+                                    Text(
+                                      "合计：",
+                                      style: TextStyle(
+                                          fontSize: ScreenAdapter.setSp(28),
+                                          color: Colors.black),
+                                    ),
+                                    Text(
+                                      "¥${_totalPrice}",
+                                      style: TextStyle(
+                                          fontSize: ScreenAdapter.setSp(26),
+                                          color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
-              ],
-            ),
+                            )
+                          ],
+                        ),
+                      )),
+                ],
+              );
+            }),
     );
   }
 
