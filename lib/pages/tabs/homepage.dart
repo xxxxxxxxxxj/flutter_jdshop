@@ -5,6 +5,7 @@ import 'package:flutter_jdshop/bean/prodcutbean.dart';
 import 'package:flutter_jdshop/config/apiconfig.dart';
 import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/res/strings.dart';
+import 'package:flutter_jdshop/util/log_util.dart';
 import 'package:flutter_jdshop/util/object_util.dart';
 import 'package:flutter_jdshop/util/utils.dart';
 import 'package:flutter_jdshop/view/loading_widget.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_jdshop/util/screenadapter.dart';
 import 'package:flutter_jdshop/view/banner_widget.dart';
 import 'package:flutter_jdshop/view/columntitle_widget.dart';
 import 'package:dio/dio.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class HomePage extends StatefulWidget {
   @override
@@ -80,7 +82,7 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         leading:
-            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: () {}),
+            IconButton(icon: Icon(Icons.center_focus_weak), onPressed: scan),
         centerTitle: true,
         title: InkWell(
           onTap: () {
@@ -99,7 +101,9 @@ class _HomePageState extends State<HomePage>
                   size: 15,
                 ),
                 Text(
-                  "笔记本",
+                  "记事本",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: ScreenAdapter.setSp(26), color: Colors.black45),
                 )
@@ -144,6 +148,15 @@ class _HomePageState extends State<HomePage>
         ],
       ),
     );
+  }
+
+  Future scan() async {
+    try {
+      String barcode = await scanner.scan();
+      LogUtil.e("barcode = ${barcode}");
+    } on Exception catch (e) {
+      LogUtil.e("错误 = ${e.toString()}");
+    }
   }
 
   _getHotWidget() {
