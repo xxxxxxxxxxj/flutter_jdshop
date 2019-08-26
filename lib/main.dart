@@ -16,6 +16,8 @@ import 'data/index.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluintl/fluintl.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:alipay_me/alipay_me.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations(
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     LogUtil.e("_headers = " + _headers.toString());
     options.headers = _headers;
     DioUtil().setConfig(config);
+    fluwx.register(appId:AppConfig.WX_AppId);
   }
 
   @override

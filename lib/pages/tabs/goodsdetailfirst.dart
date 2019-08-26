@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/bean/bannerbean.dart';
 import 'package:flutter_jdshop/bean/goodsdetailbean.dart';
 import 'package:flutter_jdshop/bean/prodcutbean.dart';
+import 'package:flutter_jdshop/config/appconfig.dart';
 import 'package:flutter_jdshop/event/event.dart';
 import 'package:flutter_jdshop/services/cartservice.dart';
 import 'package:flutter_jdshop/util/log_util.dart';
@@ -378,7 +379,8 @@ class _GoodsDetailFirstState extends State<GoodsDetailFirst>
                                     color: Color.fromRGBO(255, 165, 0, 0.9),
                                     text: "立即购买",
                                     cb: () {
-                                      print('立即购买');
+                                      Navigator.pushNamed(
+                                          context, PageName.route_orderpay);
                                     },
                                   )),
                             )

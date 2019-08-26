@@ -1,6 +1,7 @@
 class AppConfig {
   static const bool isLogDeBug = true;
   static const String logTag = "flutter_jdshop";
+  static const String WX_AppId = "wx965fadef9e22bcb6";
 }
 
 class SPKey {
@@ -19,6 +20,7 @@ class PageName {
   static const String route_serch = "route_serch";
   static const String route_gooddetail = "route_gooddetail";
   static const String route_cart = "route_cart";
+  static const String route_orderpay = "route_orderpay";
 }
 
 class JumpToPoint {

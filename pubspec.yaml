@@ -48,6 +48,8 @@ dependencies:
   flutter_inappbrowser: ^1.2.1
   event_bus: ^1.1.0
   qrscan: ^0.2.13
+  fluwx: ^1.0.4
+  alipay_me: ^1.0.0
 
 dev_dependencies:
   flutter_test:
