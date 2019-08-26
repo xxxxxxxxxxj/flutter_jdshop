@@ -27,6 +27,9 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'kotlin-android'//这里添加
+apply plugin: 'kotlin-android-extensions'//这里添加
+apply plugin: 'kotlin-kapt' // kapt插件，在 kotlin 中，不能直接使用 annotationProcessor 来添加依赖，需要使用 kapt 代替，
 
 android {
     compileSdkVersion 28
@@ -119,6 +122,8 @@ flutter {
 }
 //项目的依赖关系
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"//主要是这两个依赖
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"//主要是这两个依赖
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
