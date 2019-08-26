@@ -1,20 +1,24 @@
 buildscript {
-    ext.kotlin_version = '1.2.71'
     repositories {
-        google()
-        jcenter()
+        flatDir { dirs 'proguard' }
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.novoda:bintray-release:0.5.0'
     }
 }
 
 allprojects {
     repositories {
-        google()
-        jcenter()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     }
 }
 
@@ -26,6 +30,10 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// 运行gradle clean时，执行此处定义的task任务。
+// 该任务继承自Delete，删除根目录中的build目录。
+// 相当于执行Delete.delete(rootProject.buildDir)。
+// gradle使用groovy语言，调用method时可以不用加（）。
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

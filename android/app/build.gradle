@@ -21,21 +21,15 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 28
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.pethouse.flutter_jdshop"
@@ -43,24 +37,88 @@ android {
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+    signingConfigs {// 自动化打包配置
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
+    }
+    buildTypes {
+        //android代码编译成apk后如果没有进行任何防护措施是很容易被反编译的，并且反编译的结果甚至就是简单的源码，
+        // 带来的损失可大可小。幸好，AndroidStudio提供编译代码加密，即ProGuard。
+        release {
+            //项目配置文件
+            buildConfigField "boolean", "LOG_DEBUG", "fasle"//配置Log日志
+            buildConfigField "String", "SERVER_HOST", "\"api.clife.cn/\""// 配置域名头
+            minifyEnabled true//是否进行代码混淆
+            /*proguardFiles 代码加密原则 有两个文件对，getDefaultProguardFile(‘proguard-android.txt’)表示默认文件，
+            这个文件是sdk自带的，有一些通用的配置；但是如果apk需要更加严格的加密，我们可以在’proguard-rules.pro’文件中进行更加详尽的配置。*/
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            //是否清理无用资源
+            shrinkResources true
+            //是否启用zipAlign压缩
+            zipAlignEnabled true
+            pseudoLocalesEnabled true//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
+            signingConfig signingConfigs.config//设置签名信息
+            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "String", "SERVER_HOST", "\"200.200.200.50/\""
+            minifyEnabled true//true：启用混淆,false:不启用
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            zipAlignEnabled true
+            pseudoLocalesEnabled true
+            signingConfig signingConfigs.config
+            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+            debuggable false//是否支持断点调试
+            jniDebuggable false//是否可以调试NDK代码
+            renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
+        }
+    }
+    //配置目录指向
+    //配置 jniLibs.srcDirs = ['libs']，可以在Android studio的Android视图下生成jniLibs文件夹，
+    // 可以方便我们存放jar包和库文件
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            assets.srcDirs = ['assets']
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    packagingOptions {//打包时的相关配置
+        //pickFirsts做用是 当有重复文件时 打包会报错 这样配置会使用第一个匹配的文件打包进入apk
+        // 表示当apk中有重复的META-INF目录下有重复的LICENSE文件时 只用第一个 这样打包就不会报错
+        pickFirsts = ['META-INF/LICENSE']
+        //merges何必 当出现重复文件时 合并重复的文件 然后打包入apk
+        //这个是有默认值得 merges = [] 这样会把默默认值去掉 所以我们用下面这种方式 在默认值后添加
+        merge 'META-INF/LICENSE'
+        //这个是在同时使用butterknife、dagger2做的一个处理。同理，遇到类似的问题，只要根据gradle的提示，做类似处理即可。
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+    //程序在编译的时候会检查lint，有任何错误提示会停止build，我们可以关闭这个开关
+    lintOptions {
+        abortOnError false //即使报错也不会停止打包
+        checkReleaseBuilds false //打包release版本的时候进行检测
     }
 }
 
 flutter {
     source '../..'
 }
-
+//项目的依赖关系
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
