@@ -33,6 +33,10 @@ apply plugin: 'kotlin-kapt' // kapt插件，在 kotlin 中，不能直接使用 
 
 android {
     compileSdkVersion 28
+    //关闭Android Studio的PNG合法性检查,将Eclipse项目导入到Android studio 中 很多点9图出现问题解决方法：
+    // 用来关闭Android Studio的PNG合法性检查的，直接不让它检查。
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.pethouse.flutter_jdshop"
@@ -40,7 +44,8 @@ android {
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        flavorDimensions "versionCode"
+        archivesBaseName = "demo-$versionName" // 指定打包成Jar文件时候的文件名称
+        flavorDimensions "versionCode"//风味维度
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -86,18 +91,6 @@ android {
             debuggable false//是否支持断点调试
             jniDebuggable false//是否可以调试NDK代码
             renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
-        }
-    }
-    //配置目录指向
-    //配置 jniLibs.srcDirs = ['libs']，可以在Android studio的Android视图下生成jniLibs文件夹，
-    // 可以方便我们存放jar包和库文件
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            assets.srcDirs = ['assets']
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
-            jniLibs.srcDirs = ['libs']
         }
     }
     packagingOptions {//打包时的相关配置
